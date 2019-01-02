@@ -24,6 +24,7 @@ public class Constant {
     public static final String GET_DETAIL = "api/job_data.php";
     public static final String SEARCH_DATA = "api/job_list.php";
     public static final String DELETE = "api/delete_file.php";
+    public static final String CREW_LIST = "api/available.php";
 
 
     // Fragment constant

@@ -5,10 +5,9 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,27 +20,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import creative.creation.in.cleansys.R;
+import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
+import creative.creation.in.cleansys.adapter.CrewSpinnerAdapter;
+import creative.creation.in.cleansys.modal.Model;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
+import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
+import creative.creation.in.cleansys.modal.crew_modal.CrewUserList;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
 import creative.creation.in.cleansys.util.ConnectionDetector;
-import creative.creation.in.cleansys.util.Utility;
-import creative.creation.in.cleansys.util.WebApi;
 import creative.creation.in.cleansys.utils.Alerts;
 import creative.creation.in.cleansys.utils.BaseActivity;
 import retrofit2.Response;
@@ -108,6 +106,15 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
             cb_job_details, cb_callback_reason, cb_callback_reason_other, cb_callback_reason_complaint, cb_parent_job, cb_follow_up_date,
             fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute;
 
+    private String strDate = "", strTime = "";
+    private CreawListAttechAdapter attechAdapter;
+    private RecyclerView listView;
+    private List<Model> ItemModelList = new ArrayList<>();
+    private List<CrewUserList> crewUserLists = new ArrayList<>();
+    private CrewSpinnerAdapter crewSpinnerAdapter;
+    private String strCrewName = "";
+    private String strCrewId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,61 +136,49 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
-        boolean ineternet = connectionDetector.isConnected();
-        if (ineternet) {
-            //getUser();
-            getCrew();
-        } else {
-            Utility.toastView(ctx, ctx.getString(R.string.no_internet));
-        }
-    }
+        crewSpinnerAdapter = new CrewSpinnerAdapter(mContext, R.layout.spinner_layout, crewUserLists);
+        spCrewList.setAdapter(crewSpinnerAdapter);
 
-    private void getCrew() {
-        Utility.showLoader(ctx);
-        AndroidNetworking.get(WebApi.API_CREW_LIST)
-                .setTag("test")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // do anything with response
-                        Utility.hideLoader();
-                        setResponse1(response);
-                    }
+        listView = (RecyclerView) findViewById(R.id.listview);
+        attechAdapter = new CreawListAttechAdapter(mContext, ItemModelList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        listView.setLayoutManager(mLayoutManager);
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setAdapter(attechAdapter);
 
-                    @Override
-                    public void onError(ANError error) {
-                        // handle error
-                        Utility.hideLoader();
-                    }
-                });
-    }
-
-    private void setResponse1(JSONObject response) {
-        ArrayList<String> list1 = new ArrayList<>();
-        try {
-            boolean error = response.getBoolean("error");
-            String msg = response.getString("message");
-            if (!error) {
-                JSONArray array = response.getJSONArray("user");
-                if (array.length() > 0) {
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String name = object.getString("user_name");
-                        list1.add(name);
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, list1);
-                    spCrewList.setAdapter(adapter);
-
-                    customerDetail();
-                }
-            } else {
-                Utility.toastView(ctx, msg);
+        spCrewList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                strCrewId = crewUserLists.get(i).getUserId();
+                strCrewName = crewUserLists.get(i).getUserName();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void getCrew(String strDateTime) {
+        RetrofitService.getCrewUserList(new Dialog(mContext), retrofitApiClient.crewList(strDateTime), new WebResponse() {
+            @Override
+            public void onResponseSuccess(Response<?> result) {
+                CrewMainModal crewMainModal = (CrewMainModal) result.body();
+                crewUserLists.clear();
+                if (crewMainModal == null)
+                    return;
+                if (crewMainModal.getUser().size() > 0) {
+                    crewUserLists.addAll(crewMainModal.getUser());
+                }
+                crewSpinnerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onResponseFailed(String error) {
+                Alerts.show(mContext, error);
+            }
+        });
     }
 
     private void validation() {
@@ -383,56 +378,10 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         createForm();
     }
 
-    private void getUser() {
-        Utility.showLoader(ctx);
-        AndroidNetworking.get(WebApi.API_ALL_CUSTOMER)
-                .setTag("test")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // do anything with response
-                        Utility.hideLoader();
-                        setResponse(response);
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        // handle error
-                        Utility.hideLoader();
-                    }
-                });
-    }
-
-    private void setResponse(JSONObject response) {
-        ArrayList<String> list = new ArrayList<>();
-        try {
-            boolean error = response.getBoolean("error");
-            String msg = response.getString("message");
-            if (!error) {
-                JSONArray array = response.getJSONArray("user");
-                if (array.length() > 0) {
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String name = object.getString("name");
-                        list.add(name);
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, list);
-                    select_cust_0sp.setAdapter(adapter);
-
-                    customerDetail();
-
-                }
-            } else {
-                Utility.toastView(ctx, msg);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void init0() {
+        (findViewById(R.id.btn_refresh)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.imgViewAdd)).setOnClickListener(this);
+
         btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
         tvBookedJobDate = findViewById(R.id.tvBookedJobDate);
@@ -596,18 +545,6 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         spDetailMinuts.setAdapter(adapter19);
     }
 
-    private void initXml() {
-        ctx = this;
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
     @Override
     public void onBackPressed() {
         finish();
@@ -616,10 +553,26 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imgViewAdd:
+                addValue();
+                break;
             case R.id.btnSave:
                 validation();
                 break;
-
+            case R.id.btn_refresh:
+                hour = spDetailHourse.getSelectedItem().toString();
+                minute = spDetailMinuts.getSelectedItem().toString();
+                if (strDate.isEmpty()) {
+                    Alerts.show(mContext, "Please select date!!!");
+                } else {
+                    if (hour.isEmpty()) {
+                        strTime = "";
+                    } else {
+                        strTime = hour + ":" + minute;
+                    }
+                    getCrew(strDate + " " + strTime);
+                }
+                break;
             case R.id.tvBookedJobDate:
                 // date picker dialog
                 datePickerDialog = new DatePickerDialog(UpdateActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -648,6 +601,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         tvDetailDateandTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -689,6 +643,35 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void createForm() {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject();
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < ItemModelList.size(); i++) {
+                JSONObject internalObject = new JSONObject();
+                internalObject.put("id", ItemModelList.get(i).getId());
+                array.put(internalObject);
+            }
+            jsonObject.put("crew_data", array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String strCrewData = jsonObject + "";
+        String strSplit[] = strCrewData.split("\\[");
+        String strOne = strSplit[1];
+        strOne = "[" + strOne;
+        String strSplitTwo[] = strOne.split("\\]");
+        String strData = strSplitTwo[0];
+        strData = strData + "]";
+        Alerts.show(mContext, strData);
+
+        if (hour.isEmpty()) {
+            hour = "0";
+        }
+        if (minute.isEmpty()) {
+            minute = "0";
+        }
+
         if (cd.isNetworkAvailable()) {
             RetrofitService.getUpdateFormFill(new Dialog(mContext), retrofitApiClient.getUpdateFormFill(jobId,
                     location, jobDetail, pr_source, pr_other_adv_source, pr_type, pr_no_of_storages, pr_urgent_handover_notes, pr_commercial_property,
@@ -710,7 +693,6 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());
-                        //clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -755,7 +737,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 
                             }
                         });
-                        //clear();
+
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -764,64 +746,6 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onResponseFailed(String error) {
                     Alerts.show(mContext, error);
-                }
-            });
-
-        } else {
-            cd.show(mContext);
-        }
-    }
-
-    private void customerDetail() {
-        if (cd.isNetworkAvailable()) {
-            RetrofitService.getCustomerDetail(new Dialog(mContext), retrofitApiClient.getCustomerDetail(jobId), new WebResponse() {
-                @Override
-                public void onResponseSuccess(Response<?> result) {
-                    CustomerDetailModel1 loginModal = (CustomerDetailModel1) result.body();
-                    assert loginModal != null;
-                    if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
-                        etOtherSourceAdv.setText("Hello");
-                        et_0_jobdescr.setText(loginModal.getJobdata().getJobData().getJsDesc());
-                        pdUrgentHandoverNotes.setText(loginModal.getJobdata().getTaskPropertyDetails().getUrgentHandoverNotes());
-
-                        ((TextView) findViewById(R.id.tvName)).setText(loginModal.getJobdata().getJobData().getCustLocat());
-
-                        etOtherSourceAdv.setText(loginModal.getJobdata().getTaskPropertyDetails().getOtherAdvert());
-                        etVisitedNotGivenReason.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdVisitedNotGivenReason());
-                        tvBookedJobDate.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdBookDate());
-                        tvBookedJobTime.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdBookTime());
-                        etNoteAnyDefectsTakeInformCustomer.setText(loginModal.getJobdata().getJobBreif().getJbPostInspectCompl());
-                        etJobNoReason.setText(loginModal.getJobdata().getJobBreif().getJbCancelReson());
-                        etJobNoNoteActionRequired.setText(loginModal.getJobdata().getJobBreif().getJbIfNoNoteActionReq());
-                        etJobOtherDetails.setText(loginModal.getJobdata().getJobBreif().getJbOtherDetails());
-                        etJobNoteanyissuesordamagesandensurepictureshavebeenuploaded.setText(loginModal.getJobdata().getJobBreif().getJbEquipPassedInPreUseInspect());
-                        tvPaymentDateCompletionPaymentReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydComplPaymentRecieve());
-                        tvPaymentDateDepositReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydDateDepostiRecieve());
-                        etPaymentDepositAmountReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydDateDepostiRecieve());
-                        etPaymentInvoiceNumber.setText(loginModal.getJobdata().getPaymentDetails().getPaydInvoiceNumber());
-                        etPaymentNonPaymentReason.setText(loginModal.getJobdata().getPaymentDetails().getPaydNonPaymentReason());
-                        etCardAuthCode.setText(loginModal.getJobdata().getPaymentDetails().getPaydCardAuthCode());
-                        etCallBackJobdetails.setText(loginModal.getJobdata().getCallback().getCbJbDetail());
-                        etCallBackReasonComplaint.setText(loginModal.getJobdata().getCallback().getCbComplaint());
-                        etCallBackReasonOther.setText(loginModal.getJobdata().getCallback().getCbReasonOther());
-                        etParentJob.setText(loginModal.getJobdata().getCallback().getCbParentJb());
-                        tvFollowUpDate.setText(loginModal.getJobdata().getCallback().getCbFollowUpDate());
-                        etComments.setText(loginModal.getJobdata().getTechFeedback().getTfComments());
-                        tvDetailDateandTime.setText(loginModal.getJobdata().getTechFeedback().getTfComments());
-                        //clear();
-
-                        setSpinner(loginModal);
-                    } else {
-                        Alerts.show(mContext, loginModal.getMessage());
-                        Log.e("", loginModal.getMessage());
-                    }
-                }
-
-                @Override
-                public void onResponseFailed(String error) {
-                    Alerts.show(mContext, error);
-                    Log.e("Error", error);
                 }
             });
 
@@ -989,5 +913,32 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         spDetailMinuts.setSelection(intMM + 1);
     }
 
+    public void addValue() {
+        /*if (ItemModelList.size() >= 1) {
+            Model md = new Model(strCrewName);
+            for (int j = 0; j < ItemModelList.size(); j++) {
+                if (strCrewName.equals(ItemModelList.get(j).getName())) {
+                    Alerts.show(mContext, "Already added!!!");
+                } else {
+                    if (!strCrewName.isEmpty()) {
+                        ItemModelList.add(md);
+                        attechAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        } else if (ItemModelList.size() < 1) {
+            if (!strCrewName.isEmpty()) {
+                Model md = new Model(strCrewName);
+                ItemModelList.add(md);
+                attechAdapter.notifyDataSetChanged();
+            }
+        }*/
+        if (!strCrewName.isEmpty()) {
+            Model md = new Model(strCrewName, strCrewId);
+            ItemModelList.add(md);
+            attechAdapter.notifyDataSetChanged();
+        }
+    }
 
 }

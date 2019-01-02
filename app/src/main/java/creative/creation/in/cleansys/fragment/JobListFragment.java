@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,13 +27,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import creative.creation.in.cleansys.R;
-import creative.creation.in.cleansys.adapter.AttechmentAdapter;
 import creative.creation.in.cleansys.adapter.JobListAdapter;
 import creative.creation.in.cleansys.interfaces.FragmentChangeListener;
-import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.JobList;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
-import creative.creation.in.cleansys.model.Jobs;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
 import creative.creation.in.cleansys.util.Utility;
@@ -50,7 +46,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
     private RecyclerView recyclerView;
     private ArrayList<JobList> list = new ArrayList<>();
     private JobListAdapter adapter;
-    private EditText searchName,searchFromDate,searchToDate;
+    private EditText searchName, searchFromDate, searchToDate;
     private Button searchButtom;
     DatePickerDialog datePickerDialog;
     final Calendar c = Calendar.getInstance();
@@ -79,7 +75,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
         recyclerView = rootView.findViewById(R.id.rv_joblist_recyclerview);
 
         if (cd.isNetworkAvailable()) {
-           // getJobs();
+            // getJobs();
         } else {
             cd.show(mContext);
         }
@@ -105,6 +101,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                         Utility.hideLoader();
                         setResponse(response);
                     }
+
                     @Override
                     public void onError(ANError error) {
                         Utility.hideLoader();
@@ -130,7 +127,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                         String payment_status = object.getString("payment_status");
                         String attachments = object.getString("attachments");
                         JSONArray member_array = object.getJSONArray("crew_member");
-                        list.add(new JobList(job_id,data,member_array,customer,customer_reference_number,payment_status,estm_price,attachments,assets));
+                        list.add(new JobList(job_id, data, member_array, customer, customer_reference_number, payment_status, estm_price, attachments, assets));
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -144,9 +141,8 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.searchFromDate :
+        switch (view.getId()) {
+            case R.id.searchFromDate:
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -156,7 +152,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                 datePickerDialog.show();
                 break;
 
-            case R.id.searchToDate :
+            case R.id.searchToDate:
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -166,7 +162,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                 datePickerDialog.show();
                 break;
 
-            case R.id.searchButton :
+            case R.id.searchButton:
                 searchList();
                 break;
         }
@@ -182,20 +178,16 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
         String sName = searchName.getText().toString();
         String fromDate = searchFromDate.getText().toString();
         String toDate = searchToDate.getText().toString();
-        if (sName.equals(""))
-        {
-            Alerts.show(mContext,"Please Enter Search Name");
-        }else if (fromDate.equals(""))
-        {
-            Alerts.show(mContext,"Select From Date");
-        }else if (toDate.equals(""))
-        {
-            Alerts.show(mContext,"Select To Date");
-        }else {
-
+        if (sName.equals("")) {
+            Alerts.show(mContext, "Please Enter Search Name");
+        } else if (fromDate.equals("")) {
+            Alerts.show(mContext, "Select From Date");
+        } else if (toDate.equals("")) {
+            Alerts.show(mContext, "Select To Date");
+        } else {
 
             if (cd.isNetworkAvailable()) {
-                RetrofitService.searchList(new Dialog(mContext), retrofitApiClient.searchApi(fromDate,sName,toDate), new WebResponse() {
+                RetrofitService.searchList(new Dialog(mContext), retrofitApiClient.searchApi(fromDate, sName, toDate), new WebResponse() {
                     @Override
                     public void onResponseSuccess(Response<?> result) {
                         SearchModel loginModal = (SearchModel) result.body();
@@ -249,57 +241,56 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
 
     private void JoblistList() {
         if (cd.isNetworkAvailable()) {
-                RetrofitService.jobListApi(new Dialog(mContext), retrofitApiClient.jobListApi(), new WebResponse() {
-                    @Override
-                    public void onResponseSuccess(Response<?> result) {
-                        SearchModel loginModal = (SearchModel) result.body();
-                        assert loginModal != null;
-                        if (!loginModal.getError()) {
-                            Alerts.show(mContext, loginModal.getMessage());
+            RetrofitService.jobListApi(new Dialog(mContext), retrofitApiClient.jobListApi(), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    SearchModel loginModal = (SearchModel) result.body();
+                    assert loginModal != null;
+                    if (!loginModal.getError()) {
+                        Alerts.show(mContext, loginModal.getMessage());
 
-                            for (int i = 0; i < loginModal.getJobList().size(); i++) {
-                                String getAssets = loginModal.getJobList().get(i).getAssets();
-                                String getAttachments = loginModal.getJobList().get(i).getAttachments();
-                                String getCustomer = loginModal.getJobList().get(i).getCustomer();
-                                String getCustomerReferenceNumber = loginModal.getJobList().get(i).getCustomerReferenceNumber();
-                                String getEstPrice = loginModal.getJobList().get(i).getEstPrice();
-                                String getJldData = loginModal.getJobList().get(i).getJldData();
-                                String getJobId = loginModal.getJobList().get(i).getJobId();
-                                String getPaymentStatus = loginModal.getJobList().get(i).getPaymentStatus();
+                        for (int i = 0; i < loginModal.getJobList().size(); i++) {
+                            String getAssets = loginModal.getJobList().get(i).getAssets();
+                            String getAttachments = loginModal.getJobList().get(i).getAttachments();
+                            String getCustomer = loginModal.getJobList().get(i).getCustomer();
+                            String getCustomerReferenceNumber = loginModal.getJobList().get(i).getCustomerReferenceNumber();
+                            String getEstPrice = loginModal.getJobList().get(i).getEstPrice();
+                            String getJldData = loginModal.getJobList().get(i).getJldData();
+                            String getJobId = loginModal.getJobList().get(i).getJobId();
+                            String getPaymentStatus = loginModal.getJobList().get(i).getPaymentStatus();
 
-                                JobList jobList = new JobList();
-                                jobList.setAssets(getAssets);
-                                jobList.setAttachments(getAttachments);
-                                jobList.setCustomer(getCustomer);
-                                jobList.setCustomerReferenceNumber(getCustomerReferenceNumber);
-                                jobList.setEstPrice(getEstPrice);
-                                jobList.setJldData(getJldData);
-                                jobList.setJobId(getJobId);
-                                jobList.setPaymentStatus(getPaymentStatus);
+                            JobList jobList = new JobList();
+                            jobList.setAssets(getAssets);
+                            jobList.setAttachments(getAttachments);
+                            jobList.setCustomer(getCustomer);
+                            jobList.setCustomerReferenceNumber(getCustomerReferenceNumber);
+                            jobList.setEstPrice(getEstPrice);
+                            jobList.setJldData(getJldData);
+                            jobList.setJobId(getJobId);
+                            jobList.setPaymentStatus(getPaymentStatus);
 
-                                list.add(jobList);
-                            }
-                            adapter.notifyDataSetChanged();
+                            list.add(jobList);
+                        }
+                        adapter.notifyDataSetChanged();
 
                            /* ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list2);
                             select_cust_0sp.setAdapter(adapter);*/
-                            //clear();
-                        } else {
-                            Alerts.show(mContext, loginModal.getMessage());
-                        }
+                        //clear();
+                    } else {
+                        Alerts.show(mContext, loginModal.getMessage());
                     }
+                }
 
-                    @Override
-                    public void onResponseFailed(String error) {
-                        Alerts.show(mContext, error);
-                    }
-                });
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
 
-            } else {
-                cd.show(mContext);
-            }
+        } else {
+            cd.show(mContext);
         }
-
+    }
 
 
 }

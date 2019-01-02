@@ -10,16 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import creative.creation.in.cleansys.R;
-import creative.creation.in.cleansys.modal.DateEvent;
 import creative.creation.in.cleansys.modal.Model;
 
 public class CreawListAttechAdapter extends RecyclerView.Adapter<CreawListAttechAdapter.MyHolder> {
     Context ctx;
-    ArrayList<Model> itemModelList;
+    List<Model> itemModelList;
 
-    public CreawListAttechAdapter(Context ctx, ArrayList<Model> priceModel1ArrayList) {
+    public CreawListAttechAdapter(Context ctx, List<Model> priceModel1ArrayList) {
         this.ctx = ctx;
         this.itemModelList = priceModel1ArrayList;
     }
@@ -27,8 +27,7 @@ public class CreawListAttechAdapter extends RecyclerView.Adapter<CreawListAttech
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new MyHolder(itemView);
     }
 
@@ -36,8 +35,6 @@ public class CreawListAttechAdapter extends RecyclerView.Adapter<CreawListAttech
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
 
         holder.tvName.setText(itemModelList.get(position).getName());
-        holder.imgRemove.setImageResource(R.drawable.add);
-// click listiner for remove button
         holder.imgRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

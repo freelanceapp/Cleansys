@@ -9,11 +9,10 @@ import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerMo
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.api_modal.login_response.LoginModal;
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
-import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
+import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -124,7 +123,7 @@ public interface RetrofitApiClient {
                                    @Field("effrt") String effrt,
                                    @Field("hour") String hour,
                                    @Field("minute") String minute,
-                                   @Field("crew_id[]") String crew_id);
+                                   @Field("crew_id") String crewData);
 
 
     @FormUrlEncoded
@@ -196,7 +195,7 @@ public interface RetrofitApiClient {
                                          @Field("effrt") String effrt,
                                          @Field("hour") String hour,
                                          @Field("minute") String minute,
-                                         @Field("crew_id[]") String crew_id);
+                                         @Field("crew_id") String crew_id);
 
     @GET(Constant.SCHEDULAR)
     Call<SedularModel1> getSchedular();
@@ -228,7 +227,6 @@ public interface RetrofitApiClient {
     @POST(Constant.GET_DETAIL)
     Call<CustomerDetailModel1> getCustomerDetail(@Field("job_id") String job_id);
 
-
     @FormUrlEncoded
     @POST(Constant.SEARCH_DATA)
     Call<SearchModel> searchApi(@Field("searc_from") String searc_from,
@@ -242,5 +240,9 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.DELETE)
     Call<CutomerModel> deleteImage(@Field("id") String id);
+
+    @FormUrlEncoded
+    @POST(Constant.CREW_LIST)
+    Call<CrewMainModal> crewList(@Field("effrt") String effrt);
 
 }

@@ -6,11 +6,13 @@ import java.util.concurrent.TimeUnit;
 
 import creative.creation.in.cleansys.constant.Constant;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
+import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.SedularModel1;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentModel;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
 import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
+import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
 import creative.creation.in.cleansys.modal.api_modal.vendor_detail.VendorDetailMainModal;
 import creative.creation.in.cleansys.utils.AppProgressDialog;
 import okhttp3.OkHttpClient;
@@ -166,20 +168,20 @@ public class RetrofitService {
     }
 
     /* VendorDetail details data */
-    public static void getSchedular(final Dialog dialog, final Call<SchedularModel> method, final WebResponse webResponse) {
+    public static void getSchedular(final Dialog dialog, final Call<SedularModel1> method, final WebResponse webResponse) {
         if (dialog != null)
             AppProgressDialog.show(dialog);
 
-        method.enqueue(new Callback<SchedularModel>() {
+        method.enqueue(new Callback<SedularModel1>() {
             @Override
-            public void onResponse(Call<SchedularModel> call, Response<SchedularModel> response) {
+            public void onResponse(Call<SedularModel1> call, Response<SedularModel1> response) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 WebServiceResponse.handleResponse(response, webResponse);
             }
 
             @Override
-            public void onFailure(Call<SchedularModel> call, Throwable throwable) {
+            public void onFailure(Call<SedularModel1> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());
@@ -269,6 +271,74 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<CutomerModel1> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+
+    /* SearchList details data */
+    public static void searchList(final Dialog dialog, final Call<SearchModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<SearchModel>() {
+            @Override
+            public void onResponse(Call<SearchModel> call, Response<SearchModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<SearchModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+
+    /* SearchList details data */
+    public static void jobListApi(final Dialog dialog, final Call<SearchModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<SearchModel>() {
+            @Override
+            public void onResponse(Call<SearchModel> call, Response<SearchModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<SearchModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    /* Delete details data */
+    public static void deleteImage(final Dialog dialog, final Call<CutomerModel> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<CutomerModel>() {
+            @Override
+            public void onResponse(Call<CutomerModel> call, Response<CutomerModel> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<CutomerModel> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

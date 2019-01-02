@@ -53,6 +53,8 @@ public class AttechmentAdapter extends RecyclerView.Adapter<AttechmentAdapter.My
         Picasso.get().load("http://webintellect.co.uk/cleansys/"+attechmentFileArrayList.get(position).getAttachPath()).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
         holder.ivAttechmentDown.setOnClickListener(onClickListener);
         holder.ivAttechmentDown.setTag(position);
+        holder.ivAttechmentDelete.setOnClickListener(onClickListener);
+        holder.ivAttechmentDelete.setTag(position);
     }
     @Override
     public int getItemCount() {
@@ -61,12 +63,13 @@ public class AttechmentAdapter extends RecyclerView.Adapter<AttechmentAdapter.My
 
     class MyHolder extends RecyclerView.ViewHolder  {
         TextView tvAttechmentName;
-        ImageView ivAttechmentImg,ivAttechmentDown;
+        ImageView ivAttechmentImg,ivAttechmentDown,ivAttechmentDelete;
         public MyHolder(View itemView) {
             super(itemView);
             tvAttechmentName = itemView.findViewById(R.id.tvAttechmentName);
             ivAttechmentImg = itemView.findViewById(R.id.ivAttechmentImg);
             ivAttechmentDown = itemView.findViewById(R.id.ivAttechmentDown);
+            ivAttechmentDelete = itemView.findViewById(R.id.ivAttechmentDelete);
         }
 
 

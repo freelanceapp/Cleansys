@@ -39,6 +39,8 @@ import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.DateListAdapter;
 import creative.creation.in.cleansys.adapter.PriceListAdapter;
 import creative.creation.in.cleansys.modal.DateEvent;
+import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.Event;
+import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.SedularModel1;
 import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
@@ -54,7 +56,7 @@ public class JobSchedulerActivity1 extends BaseActivity implements View.OnClickL
     RecyclerView date_list;
     String currentDate = "";
     DateListAdapter adapter;
-    ArrayList<DateEvent> arrayList = new ArrayList<>();
+    ArrayList<Event> arrayList = new ArrayList<>();
     TextView tvEmptiry;
 
     @Override
@@ -124,7 +126,7 @@ public class JobSchedulerActivity1 extends BaseActivity implements View.OnClickL
             RetrofitService.getSchedular(new Dialog(mContext), retrofitApiClient.getSchedular(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
-                    SchedularModel loginModal = (SchedularModel) result.body();
+                    SedularModel1 loginModal = (SedularModel1) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());
@@ -144,9 +146,9 @@ public class JobSchedulerActivity1 extends BaseActivity implements View.OnClickL
                                 if (loginModal.getEvents().get(i).getMemberName().size() > 0) {
                                     name = loginModal.getEvents().get(i).getMemberName().get(0).getTitle();
                                 }
-                                DateEvent schedularModel = new DateEvent();
+                                Event schedularModel = new Event();
                                 schedularModel.setName(name);
-                                schedularModel.setS_datel(date);
+                                schedularModel.setCrewJobId(date);
                                 schedularModel.setTitle(title);
                                 //schedularModel.getEvents().get(i).getMemberName().get(i).setTitle(name);
 

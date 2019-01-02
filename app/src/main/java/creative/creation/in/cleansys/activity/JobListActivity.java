@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.JobListAdapter;
+import creative.creation.in.cleansys.modal.api_modal.search_responce.JobList;
 import creative.creation.in.cleansys.model.Jobs;
 import creative.creation.in.cleansys.util.ConnectionDetector;
 import creative.creation.in.cleansys.util.Utility;
@@ -40,7 +41,7 @@ public class JobListActivity extends AppCompatActivity implements SearchView.OnQ
     RecyclerView recyclerView;
     private SearchView searchView, mSearchView;
     ConnectionDetector connectionDetector;
-    ArrayList<Jobs> list = new ArrayList<>();
+    ArrayList<JobList> list = new ArrayList<>();
     JobListAdapter adapter;
 
     @Override
@@ -83,7 +84,7 @@ public class JobListActivity extends AppCompatActivity implements SearchView.OnQ
                     public void onResponse(JSONObject response) {
                         // do anything with response
                         Utility.hideLoader();
-                        setResponse(response);
+                        //setResponse(response);
                     }
 
                     @Override
@@ -93,7 +94,7 @@ public class JobListActivity extends AppCompatActivity implements SearchView.OnQ
                 });
     }
 
-    private void setResponse(JSONObject response) {
+  /*  private void setResponse(JSONObject response) {
         try {
             boolean error = response.getBoolean("error");
             String msg = response.getString("message");
@@ -120,7 +121,7 @@ public class JobListActivity extends AppCompatActivity implements SearchView.OnQ
             e.printStackTrace();
         }
     }
-
+*/
     private void initXml() {
         ctx = this;
         mSearchView = (SearchView) findViewById(R.id.search_view);
@@ -205,7 +206,7 @@ public class JobListActivity extends AppCompatActivity implements SearchView.OnQ
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        adapter.filter(s);
+        //adapter.filter(s);
         return false;
     }
 

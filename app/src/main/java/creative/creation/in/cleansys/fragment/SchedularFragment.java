@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,17 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.DateListAdapter;
 import creative.creation.in.cleansys.interfaces.FragmentChangeListener;
 import creative.creation.in.cleansys.modal.DateEvent;
+import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.Event;
+import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.SedularModel1;
 import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
@@ -35,9 +41,9 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
     private RecyclerView date_list;
     private String currentDate = "";
     private DateListAdapter adapter;
-    private ArrayList<DateEvent> arrayList = new ArrayList<>();
+    private ArrayList<Event> arrayList = new ArrayList<>();
     private TextView tvEmptiry;
-
+    String str;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +69,9 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 int month1 = month + 1;
                 currentDate = year + "-" + month1 + "-" + dayOfMonth;
-                Toast.makeText(mContext, dayOfMonth + "-" + month1 + "-" + year, Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext, dayOfMonth + "-" + month1 + "-" + year, Toast.LENGTH_LONG).show();
+
+                parseDateToddMMyyyy(currentDate);
                 schedularApi();
             }
         });
@@ -73,15 +81,37 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
         date_list.setLayoutManager(mLayoutManager);
         date_list.setItemAnimator(new DefaultItemAnimator());
         date_list.setAdapter(adapter);
-        schedularApi();
+    }
+
+
+    public String parseDateToddMMyyyy(String time) {
+        String inputPattern = "yyyy-MM-dd";
+        String outputPattern = "yyyy-MM-dd";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+        str = null;
+
+        try {
+            date = inputFormat.parse(time);
+            str = outputFormat.format(date);
+            schedularApi();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 
     private void schedularApi() {
+        Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
+
         if (cd.isNetworkAvailable()) {
             RetrofitService.getSchedular(new Dialog(mContext), retrofitApiClient.getSchedular(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
-                    SchedularModel loginModal = (SchedularModel) result.body();
+                    SedularModel1 loginModal = (SedularModel1) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());
@@ -90,18 +120,28 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
                             String currentString = loginModal.getEvents().get(i).getEnd();
                             String[] separated = currentString.split("T");
                             String date = separated[0].trim();
-                            if (date.equals(currentDate)) {
+                            Log.e("Data","..."+date);
+                            if (date.equals(str)) {
                                 tvEmptiry.setVisibility(View.GONE);
                                 String s_date = loginModal.getEvents().get(i).getStart();
                                 String title = loginModal.getEvents().get(i).getTitle();
+                                String crew_job_id = loginModal.getEvents().get(i).getCrewJobId();
+                                String phone = String.valueOf(loginModal.getEvents().get(i).getPhone());
+                                String email = String.valueOf(loginModal.getEvents().get(i).getEmail());
+                                String location = String.valueOf(loginModal.getEvents().get(i).getLocation());
+                                String city = String.valueOf(loginModal.getEvents().get(i).getCity());
                                 String name = "";
                                 if (loginModal.getEvents().get(i).getMemberName().size() > 0) {
                                     name = loginModal.getEvents().get(i).getMemberName().get(0).getTitle();
                                 }
-                                DateEvent schedularModel = new DateEvent();
-                                schedularModel.setName(name);
-                                schedularModel.setS_datel(date);
+                                Event schedularModel = new Event();
+                                schedularModel.setCrewJobId(crew_job_id);
+                                schedularModel.setStart(s_date);
                                 schedularModel.setTitle(title);
+                                schedularModel.setPhone(phone);
+                                schedularModel.setEmail(email);
+                                schedularModel.setLocation(location);
+                                schedularModel.setCity(city);
                                 arrayList.add(schedularModel);
                             } else {
                                 tvEmptiry.setVisibility(View.VISIBLE);

@@ -93,6 +93,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
     private long refid;
     String fileURL;
     String songName;
+    String atId ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,13 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
             case R.id.ivAttechmentDown:
                 int pos = Integer.parseInt(view.getTag().toString());
                 getSongUrl(pos);
+                break;
+
+            case R.id.ivAttechmentDelete:
+                int pos1 = Integer.parseInt(view.getTag().toString());
+                AttechmentFile attechmentFile = attechmentFileArrayList.get(pos1);
+                atId = attechmentFile.getAttachId();
+                attechmentDeleteApi();
                 break;
         }
     }
@@ -398,7 +406,6 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                         }*/
 
                         attechmentFileArrayList.addAll(attechmentModel.getFile());
-                        attechmentAdapter.notifyDataSetChanged();
 
                         // attechmentFileArrayList.addAll(attechmentModel.getFile());
 
@@ -406,6 +413,40 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                         Alerts.show(mContext, attechmentModel.getMessage());
 
                     }
+                    attechmentAdapter.notifyDataSetChanged();
+
+
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
+        } else
+
+        {
+            cd.show(mContext);
+        }
+    }
+
+    //delete
+    public void attechmentDeleteApi() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.deleteImage(new Dialog(mContext), retrofitApiClient.deleteImage(atId), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    CutomerModel loginModal = (CutomerModel) result.body();
+                    assert loginModal != null;
+                    if (!loginModal.getError()) {
+                        Alerts.show(mContext, loginModal.getMessage());
+
+                        attechmentApi();
+                        //clear();
+                    } else {
+                        Alerts.show(mContext, loginModal.getMessage());
+                    }
+                    attechmentAdapter.notifyDataSetChanged();
                 }
 
                 @Override

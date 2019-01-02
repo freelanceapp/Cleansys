@@ -22,6 +22,8 @@ public class Constant {
     public static final String ATTECHMENT_LIST = "api/select_file.php";
     public static final String TOKEN_APP = "api/token.php";
     public static final String GET_DETAIL = "api/job_data.php";
+    public static final String SEARCH_DATA = "api/job_list.php";
+    public static final String DELETE = "api/delete_file.php";
 
 
     // Fragment constant

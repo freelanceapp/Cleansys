@@ -20,7 +20,7 @@
                 android:id="@+id/ivAttechmentImg"
                 android:src="@drawable/image"/>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
@@ -29,17 +29,37 @@
                 android:textSize="14sp"
                 android:id="@+id/tvAttechmentName"
                 android:layout_toRightOf="@id/ivAttechmentImg"
-                android:layout_toLeftOf="@id/ivAttechmentDown"/>
-            <ImageView
-                android:layout_width="@dimen/common_50_dp"
-                android:layout_height="@dimen/common_50_dp"
-                android:layout_margin="@dimen/common_5_dp"
-                android:id="@+id/ivAttechmentDown"
-                android:layout_centerVertical="true"
-                android:src="@android:drawable/stat_sys_download_done"
+                android:layout_toLeftOf="@id/all"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/all"
                 android:layout_alignParentRight="true"
-                android:background="@color/blue_circle_calendar"
-                android:padding="@dimen/common_10_dp"/>
+                android:layout_marginTop="7sp">
+                <ImageView
+                    android:layout_width="@dimen/common_40_dp"
+                    android:layout_height="@dimen/common_40_dp"
+                    android:id="@+id/ivAttechmentDown"
+                    android:layout_centerVertical="true"
+                    android:src="@android:drawable/stat_sys_download_done"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/blue_circle_calendar"
+                    android:padding="@dimen/common_5_dp"
+                    android:layout_margin="@dimen/common_3_dp"
+                    android:layout_toLeftOf="@id/ivAttechmentDelete"/>
+                <ImageView
+                    android:layout_width="@dimen/common_40_dp"
+                    android:layout_height="@dimen/common_40_dp"
+                    android:id="@+id/ivAttechmentDelete"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/common_3_dp"
+                    android:src="@drawable/icdelete"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/blue_circle_calendar"
+                    />
+            </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

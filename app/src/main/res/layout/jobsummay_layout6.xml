@@ -159,16 +159,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/x_border_et">
 
                 <TextView
-                    android:padding="8dp"
                     android:id="@+id/tvFollowUpDate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@null" />
+                    android:background="@color/light_grey"
+                    android:gravity="center" />
 
             </LinearLayout>
 

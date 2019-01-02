@@ -2,36 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <item
-        android:id="@+id/nav_scheduler"
-        android:icon="@drawable/scheduler"
-        android:title="Scheduler" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_scheduler"
+            android:icon="@drawable/scheduler"
+            android:title="Scheduler" />
 
-    <item
-        android:id="@+id/nav_jobsummary"
-        android:icon="@drawable/summary"
-        android:title="Job Summary" />
-    <item
-        android:id="@+id/nav_createcustomer"
-        android:icon="@drawable/createuser"
-        android:title="Create Customer" />
-    <item
-        android:id="@+id/nav_joblist"
-        android:icon="@drawable/joblist"
-        android:title="Job List" />
-    <item
-        android:id="@+id/nav_fellowup"
-        android:icon="@drawable/joblist"
-        android:title="Follow Up !" />
+        <item
+            android:id="@+id/nav_jobsummary"
+            android:icon="@drawable/summary"
+            android:title="Job Summary" />
+        <item
+            android:id="@+id/nav_createcustomer"
+            android:icon="@drawable/createuser"
+            android:title="Create Customer" />
+        <item
+            android:id="@+id/nav_joblist"
+            android:icon="@drawable/joblist"
+            android:title="Job List" />
+        <item
+            android:id="@+id/nav_fellowup"
+            android:icon="@drawable/joblist"
+            android:title="Follow Up !" />
 
-    <item
-        android:id="@+id/nav_pricelist"
-        android:icon="@drawable/joblist"
-        android:title="Price List" />
+        <item
+            android:id="@+id/nav_pricelist"
+            android:icon="@drawable/joblist"
+            android:title="Price List" />
 
-    <item
-        android:id="@+id/nav_logout"
-        android:icon="@drawable/ic_power"
-        android:title="Logout" />
-
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_power"
+            android:title="Logout" />
+    </group>
 </menu>

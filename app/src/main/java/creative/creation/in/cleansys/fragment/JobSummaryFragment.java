@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,10 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -33,18 +30,20 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import creative.creation.in.cleansys.AppPreference;
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
+import creative.creation.in.cleansys.adapter.CrewSpinnerAdapter;
 import creative.creation.in.cleansys.interfaces.FragmentChangeListener;
 import creative.creation.in.cleansys.modal.Model;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
+import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
+import creative.creation.in.cleansys.modal.crew_modal.CrewUserList;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
-import creative.creation.in.cleansys.util.Utility;
-import creative.creation.in.cleansys.util.WebApi;
 import creative.creation.in.cleansys.utils.Alerts;
 import creative.creation.in.cleansys.utils.BaseFragment;
 import creative.creation.in.cleansys.utils.ConnectionDetector;
@@ -53,8 +52,9 @@ import retrofit2.Response;
 
 public class JobSummaryFragment extends BaseFragment implements FragmentChangeListener, View.OnClickListener {
 
-    private View rootView;
+    private String strDate = "", strTime = "";
 
+    private View rootView;
     String refreshedToken;
     String user_id = "0";
 
@@ -111,7 +111,11 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
 
     private CreawListAttechAdapter attechAdapter;
     private RecyclerView listView;
-    private ArrayList<Model> ItemModelList = new ArrayList<>();
+    private List<Model> ItemModelList = new ArrayList<>();
+    private List<CrewUserList> crewUserLists = new ArrayList<>();
+    private CrewSpinnerAdapter crewSpinnerAdapter;
+    private String strCrewName = "";
+    private String strCrewId = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,11 +142,8 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         init0();
         apiToken();
         customerList();
-        if (cd.isNetworkAvailable()) {
-            getCrew();
-        } else {
-            cd.show(mContext);
-        }
+        crewSpinnerAdapter = new CrewSpinnerAdapter(mContext, R.layout.spinner_layout, crewUserLists);
+        spCrewList.setAdapter(crewSpinnerAdapter);
 
         listView = (RecyclerView) rootView.findViewById(R.id.listview);
         ((ImageView) rootView.findViewById(R.id.imgViewAdd)).setOnClickListener(this);
@@ -151,7 +152,19 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         listView.setLayoutManager(mLayoutManager);
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setAdapter(attechAdapter);
-        addValue();
+
+        spCrewList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                strCrewId = crewUserLists.get(i).getUserId();
+                strCrewName = crewUserLists.get(i).getUserName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void validation() {
@@ -351,48 +364,25 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         createForm();
     }
 
-    private void getCrew() {
-        //Utility.showLoader(mContext);
-        AndroidNetworking.get(WebApi.API_CREW_LIST)
-                .setTag("test")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Utility.hideLoader();
-                        setResponse1(response);
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        Utility.hideLoader();
-                    }
-                });
-    }
-
-    private void setResponse1(JSONObject response) {
-        ArrayList<String> list1 = new ArrayList<>();
-        try {
-            boolean error = response.getBoolean("error");
-            String msg = response.getString("message");
-            if (!error) {
-                JSONArray array = response.getJSONArray("user");
-                if (array.length() > 0) {
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.getJSONObject(i);
-                        String name = object.getString("user_name");
-                        list1.add(name);
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list1);
-                    spCrewList.setAdapter(adapter);
+    private void getCrew(String strDateTime) {
+        RetrofitService.getCrewUserList(new Dialog(mContext), retrofitApiClient.crewList(strDateTime), new WebResponse() {
+            @Override
+            public void onResponseSuccess(Response<?> result) {
+                CrewMainModal crewMainModal = (CrewMainModal) result.body();
+                crewUserLists.clear();
+                if (crewMainModal == null)
+                    return;
+                if (crewMainModal.getUser().size() > 0) {
+                    crewUserLists.addAll(crewMainModal.getUser());
                 }
-            } else {
-                Utility.toastView(mContext, msg);
+                crewSpinnerAdapter.notifyDataSetChanged();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onResponseFailed(String error) {
+                Alerts.show(mContext, error);
+            }
+        });
     }
 
     private void init0() {
@@ -480,14 +470,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
 
 
         btn_refresh = rootView.findViewById(R.id.btn_refresh);
-        btn_refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                spDetailMinuts.setSelection(0);
-                spDetailHourse.setSelection(0);
-
-            }
-        });
+        btn_refresh.setOnClickListener(this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, condition);
         spCommercialProperty.setAdapter(adapter);
@@ -580,6 +563,20 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
             case R.id.btnSave:
                 validation();
                 break;
+            case R.id.btn_refresh:
+                hour = spDetailHourse.getSelectedItem().toString();
+                minute = spDetailMinuts.getSelectedItem().toString();
+                if (strDate.isEmpty()) {
+                    Alerts.show(mContext, "Please select date!!!");
+                } else {
+                    if (hour.isEmpty()) {
+                        strTime = "";
+                    } else {
+                        strTime = hour + ":" + minute;
+                    }
+                    getCrew(strDate + " " + strTime);
+                }
+                break;
             case R.id.tvBookedJobDate:
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -604,6 +601,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         tvDetailDateandTime.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -640,12 +638,35 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     private void createForm() {
-        Log.e("" + location + jobDetail + pr_source + pr_other_adv_source + pr_type + pr_no_of_storages + pr_urgent_handover_notes,
-                pr_commercial_property + pr_dormer_windows_present + pr_guttering_on_dormer_windows + pr_mandatory_man +
-                        pr_long_tier_ladder_required + pr_short_tier_ladder_required + pr_dry_weather_required);
-        Log.e("" + qb_quated_by + ".." + qb_visited_not_given_reasn + ".." + qb_cancellation_reason + ".." + qb_bj_date + ".." + qb_bj_time + ".." + qb_bj_tech,
-                qb_tech_writt_quot_cop_attached + ".." + qb_quote_discussd_with_customer + ".." + qb_need_to_send_quote_to_customer + ".." +
-                        qb_quated_canceled_no_action + ".." + qb_resched_req + ".." + qb_instantl_converted);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject();
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < ItemModelList.size(); i++) {
+                JSONObject internalObject = new JSONObject();
+                internalObject.put("id", ItemModelList.get(i).getId());
+                array.put(internalObject);
+            }
+            jsonObject.put("crew_data", array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String strCrewData = jsonObject + "";
+        String strSplit[] = strCrewData.split("\\[");
+        String strOne = strSplit[1];
+        strOne = "[" + strOne;
+        String strSplitTwo[] = strOne.split("\\]");
+        String strData = strSplitTwo[0];
+        strData = strData + "]";
+        Alerts.show(mContext, strData);
+
+        if (hour.isEmpty()) {
+            hour = "0";
+        }
+        if (minute.isEmpty()) {
+            minute = "0";
+        }
+
         Log.e(jd_site_inspect_passed_risk_assetmnt + "..." + jd_preInspect_equip_passed, jd_job_cancelled + "..." + jd_need_retrn_to_site + "..." + jd_post_site_inspect_compltd);
         if (cd.isNetworkAvailable()) {
             RetrofitService.getFormData(new Dialog(mContext), retrofitApiClient.getFormFill(
@@ -660,7 +681,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     pyd_date_depost_recived, pyd_depost_amount_recived, pyd_invoice_number, pyd_payment_status,
                     pyd_date_completd_payment_recived, pyd_non_payment_reson, pyd_payment_method, pyd_card_auth_code, pyd_invoice_status,
                     pyd_completd_payment_recived, cb_job_details, cb_callback_reason, cb_callback_reason_other, cb_callback_reason_complaint,
-                    cb_parent_job, cb_follow_up_date, fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute, "1"
+                    cb_parent_job, cb_follow_up_date, fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute, strData
             ), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
@@ -683,6 +704,25 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         } else {
             cd.show(mContext);
         }
+    }
+
+    public JSONObject makJsonObject(int id[], String name[], int numberof_students)
+            throws JSONException {
+        JSONObject obj = null;
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < numberof_students; i++) {
+            obj = new JSONObject();
+            try {
+                obj.put("id", id[i]);
+                obj.put("name", name[i]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            jsonArray.put(obj);
+        }
+        JSONObject finalobject = new JSONObject();
+        finalobject.put("crew", jsonArray);
+        return finalobject;
     }
 
     private void customerList() {
@@ -747,9 +787,31 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     public void addValue() {
-        String name = "abc";
-        Model md = new Model(name);
-        ItemModelList.add(md);
-        attechAdapter.notifyDataSetChanged();
+        //strCrewName = spCrewList.getSelectedItem().toString();
+        /*if (ItemModelList.size() >= 1) {
+            Model md = new Model(strCrewName);
+            for (int j = 0; j < ItemModelList.size(); j++) {
+                if (strCrewName.equals(ItemModelList.get(j).getName())) {
+                    Alerts.show(mContext, "Already added!!!");
+                } else {
+                    if (!strCrewName.isEmpty()) {
+                        ItemModelList.add(md);
+                        attechAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        } else if (ItemModelList.size() < 1) {
+            if (!strCrewName.isEmpty()) {
+                Model md = new Model(strCrewName);
+                ItemModelList.add(md);
+                attechAdapter.notifyDataSetChanged();
+            }
+        }*/
+        if (!strCrewName.isEmpty()) {
+            Model md = new Model(strCrewName, strCrewId);
+            ItemModelList.add(md);
+            attechAdapter.notifyDataSetChanged();
+        }
     }
 }

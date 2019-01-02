@@ -71,6 +71,8 @@
                     android:id="@+id/etPaymentDepositAmountReceived"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:background="@null" />
 
             </LinearLayout>
@@ -92,6 +94,8 @@
                 <EditText
                     android:id="@+id/etPaymentInvoiceNumber"
                     android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:layout_height="match_parent"
                     android:background="@null" />
 

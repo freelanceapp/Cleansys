@@ -1,7 +1,10 @@
 package creative.creation.in.cleansys.retrofit_provider;
 
 
+import java.util.List;
+
 import creative.creation.in.cleansys.constant.Constant;
+import creative.creation.in.cleansys.modal.Model;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentModel;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
@@ -9,6 +12,7 @@ import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.Cutom
 import creative.creation.in.cleansys.modal.api_modal.login_response.LoginModal;
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
 import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
+import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -121,7 +125,7 @@ public interface RetrofitApiClient {
                                    @Field("effrt") String effrt,
                                    @Field("hour") String hour,
                                    @Field("minute") String minute,
-                                   @Field("crew_id[]") String crew_id);
+                                   @Field("crew_id") String crewData);
 
 
     @FormUrlEncoded
@@ -224,5 +228,9 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.GET_DETAIL)
     Call<CustomerDetailModel1> getCustomerDetail(@Field("job_id") String job_id);
+
+    @FormUrlEncoded
+    @POST(Constant.CREW_LIST)
+    Call<CrewMainModal> crewList(@Field("effrt") String effrt);
 
 }

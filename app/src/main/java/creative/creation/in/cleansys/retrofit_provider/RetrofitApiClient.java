@@ -197,7 +197,7 @@ public interface RetrofitApiClient {
                                          @Field("effrt") String effrt,
                                          @Field("hour") String hour,
                                          @Field("minute") String minute,
-                                         @Field("crew_id[]") String crew_id);
+                                         @Field("crew_id") String crew_id);
 
     @GET(Constant.SCHEDULAR)
     Call<SchedularModel> getSchedular();

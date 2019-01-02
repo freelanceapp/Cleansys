@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/jobsummay_layout0" />
+
+            <include layout="@layout/jobsummay_layout1" />
+
+            <include layout="@layout/jobsummay_layout2" />
+
+            <include layout="@layout/jobsummay_layout3" />
+
+            <include layout="@layout/jobsummay_layout4" />
+
+            <include layout="@layout/jobsummay_layout5" />
+
+            <include layout="@layout/jobsummay_layout6" />
+
+            <include layout="@layout/jobsummay_layout7" />
+
+            <include layout="@layout/jobsummay_layout8" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@drawable/x_button"
+                android:text="Save" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

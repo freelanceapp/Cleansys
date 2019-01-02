@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/x_border_et"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/common_60_dp"
+                android:layout_height="@dimen/common_60_dp"
+                android:layout_margin="@dimen/common_5_dp"
+                android:id="@+id/ivAttechmentImg"
+                android:src="@drawable/image"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Customer Ref Number "
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:id="@+id/tvAttechmentName"
+                android:layout_toRightOf="@id/ivAttechmentImg"
+                android:layout_toLeftOf="@id/ivAttechmentDown"/>
+            <ImageView
+                android:layout_width="@dimen/common_50_dp"
+                android:layout_height="@dimen/common_50_dp"
+                android:layout_margin="@dimen/common_5_dp"
+                android:id="@+id/ivAttechmentDown"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/stat_sys_download_done"
+                android:layout_alignParentRight="true"
+                android:background="@color/blue_circle_calendar"
+                android:padding="@dimen/common_10_dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

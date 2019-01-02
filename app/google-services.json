@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064419721958",
+    "firebase_url": "https://cleansys-2fc2d.firebaseio.com",
+    "project_id": "cleansys-2fc2d",
+    "storage_bucket": "cleansys-2fc2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064419721958:android:47e29e88fa3ba223",
+        "android_client_info": {
+          "package_name": "creative.creation.in.cleansys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064419721958-qiqt6u9i5smkjv6v0tebtjc3pq8pquia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "creative.creation.in.cleansys",
+            "certificate_hash": "af6e7a438225bb46c5ab7585a31fb59ee4c135dd"
+          }
+        },
+        {
+          "client_id": "1064419721958-7568t0q1rjsbs7fla5uahgmg63nhm4uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsA3uvI_np05O8XVCmWpx03C7WtUG4UJQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064419721958-7568t0q1rjsbs7fla5uahgmg63nhm4uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/x_border_et"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:text="Customer Ref Number "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_customer_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:text="Job Ref Num "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_job_ref_num_scdule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Not Scheduled"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                android:text=" Customer full Name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_Customer_full_Name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="No Crew Members added"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.5"
+                android:text="Customer Email  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_Customer_Email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="[,MRS Massey RG9 5HN] RG9 5HN, 28 Shiplake Bottom, Henley- On - Thames, RG9 5HN"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.5"
+                android:text="Job details (Notes)"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_job_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="£sfgsdgag"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="@dimen/common_10_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.5"
+                android:text="Customer Phone"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_customer_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="£sfgsdgag"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

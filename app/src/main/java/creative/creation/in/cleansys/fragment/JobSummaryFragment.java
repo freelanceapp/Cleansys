@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,7 +36,9 @@ import java.util.Calendar;
 
 import creative.creation.in.cleansys.AppPreference;
 import creative.creation.in.cleansys.R;
+import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
 import creative.creation.in.cleansys.interfaces.FragmentChangeListener;
+import creative.creation.in.cleansys.modal.Model;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
@@ -103,6 +109,10 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
             cb_job_details, cb_callback_reason, cb_callback_reason_other, cb_callback_reason_complaint, cb_parent_job, cb_follow_up_date,
             fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute;
 
+    private CreawListAttechAdapter attechAdapter;
+    private RecyclerView listView;
+    private ArrayList<Model> ItemModelList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,12 +138,20 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         init0();
         apiToken();
         customerList();
-        boolean ineternet = connectionDetector.isConnected();
-        if (ineternet) {
+        if (cd.isNetworkAvailable()) {
             getCrew();
         } else {
-            Utility.toastView(mContext, mContext.getString(R.string.no_internet));
+            cd.show(mContext);
         }
+
+        listView = (RecyclerView) rootView.findViewById(R.id.listview);
+        ((ImageView) rootView.findViewById(R.id.imgViewAdd)).setOnClickListener(this);
+        attechAdapter = new CreawListAttechAdapter(mContext, ItemModelList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        listView.setLayoutManager(mLayoutManager);
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setAdapter(attechAdapter);
+        addValue();
     }
 
     private void validation() {
@@ -556,12 +574,13 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.imgViewAdd:
+                addValue();
+                break;
             case R.id.btnSave:
                 validation();
                 break;
-
             case R.id.tvBookedJobDate:
-                // date picker dialog
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -570,7 +589,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
                 break;
-
             case R.id.tvBookedJobTime:
                 mTimePicker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -581,9 +599,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
                 break;
-
             case R.id.tvDetailDateandTime:
-                // date picker dialog
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -592,7 +608,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
                 break;
-
             case R.id.tvFollowUpDate:
                 // date picker dialog
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
@@ -603,9 +618,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
                 break;
-
             case R.id.tvPaymentDateCompletionPaymentReceived:
-                // date picker dialog
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -614,9 +627,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
                 break;
-
             case R.id.tvPaymentDateDepositReceived:
-                // date picker dialog
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -733,5 +744,12 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         } else {
             cd.show(mContext);
         }
+    }
+
+    public void addValue() {
+        String name = "abc";
+        Model md = new Model(name);
+        ItemModelList.add(md);
+        attechAdapter.notifyDataSetChanged();
     }
 }

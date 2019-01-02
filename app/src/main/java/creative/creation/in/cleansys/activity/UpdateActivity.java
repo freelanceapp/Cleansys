@@ -737,7 +737,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 
                             }
                         });
-                        //clear();
+
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }

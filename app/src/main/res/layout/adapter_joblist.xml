@@ -79,7 +79,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="0.5"
-                android:text="Schedule "
+                android:text="Payment Status "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
                 android:textStyle="bold" />
@@ -166,6 +166,32 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_est_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="£sfgsdgag"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.5"
+                android:text="customer Reference Number	"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_customer_reference_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

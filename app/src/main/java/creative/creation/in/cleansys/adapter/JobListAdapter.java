@@ -24,21 +24,19 @@ import java.util.List;
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.activity.AttechmentActivity;
 import creative.creation.in.cleansys.activity.UpdateActivity;
+import creative.creation.in.cleansys.modal.api_modal.search_responce.JobList;
 import creative.creation.in.cleansys.model.Jobs;
 
 import static rx.plugins.RxJavaHooks.clear;
 
 public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder> {
     Context ctx;
-    ArrayList<Jobs> joblist;
-    ArrayList<Jobs> filterList;
+    ArrayList<JobList> joblist;
 
-    public JobListAdapter(Context ctx, ArrayList<Jobs> joblist) {
+    public JobListAdapter(Context ctx, ArrayList<JobList> joblist) {
         this.ctx = ctx;
         this.joblist = joblist;
-        this.filterList = new ArrayList<Jobs>();
         // we copy the original list to the filter list and use it for setting row values
-        this.filterList.addAll(this.joblist);
     }
 
     @NonNull
@@ -52,24 +50,20 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
 
-        holder.header_tv.setText(joblist.get(position).getData());
-        holder.id_tv.setText(joblist.get(position).getId());
-        holder.estd_tv.setText(joblist.get(position).getEstm_price());
+        holder.header_tv.setText(joblist.get(position).getJldData());
+        holder.id_tv.setText(joblist.get(position).getJobId());
+        holder.estd_tv.setText(joblist.get(position).getEstPrice());
         holder.customer_tv.setText(joblist.get(position).getCustomer());
-        holder.scedule_tv.setText(joblist.get(position).getData());
-
-        try {
-            JSONArray array = new JSONArray(joblist.get(position).getCrew_memner());
-            String member = array.getString(0);
-            holder.member_tv.setText(member);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        holder.scedule_tv.setText(joblist.get(position).getPaymentStatus());
+        holder.tv_customer_reference_number.setText(joblist.get(position).getCustomerReferenceNumber());
+           /* List<String> array = joblist.get(position).getCrewMember();
+            String member = array.get(0);
+            holder.member_tv.setText(member);*/
         holder.edit_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ctx,UpdateActivity.class);
-                intent.putExtra("job_id",joblist.get(position).getId());
+                intent.putExtra("job_id",joblist.get(position).getJobId());
                 ctx.startActivity(intent);
 
             }
@@ -78,7 +72,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ctx,AttechmentActivity.class);
-                intent.putExtra("job_id",joblist.get(position).getId());
+                intent.putExtra("job_id",joblist.get(position).getJldData());
                 ctx.startActivity(intent);
             }
         });
@@ -89,56 +83,20 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         return (null != joblist ? joblist.size() : 0);    }
 
 
-    public void filter(final String text) {
 
-        // Searching could be complex..so we will dispatch it to a different thread...
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                // Clear the filter list
-                filterList.clear();
-
-                // If there is no search value, then add all original list items to filter list
-                if (TextUtils.isEmpty(text)) {
-
-                    filterList.addAll(joblist);
-
-                } else {
-                    // Iterate in the original List and add it to filter list...
-                    for (Jobs item : joblist) {
-                        if (item.getCustomer().toLowerCase().contains(text.toLowerCase()) || item.getData().toLowerCase().contains(text.toLowerCase())) {
-                            // Adding Matched items
-                            filterList.add(item);
-                        }
-                    }
-                }
-
-                // Set on UI Thread
-                ((Activity) ctx).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Notify the List that the DataSet has changed...
-                        notifyDataSetChanged();
-                    }
-                });
-
-            }
-        }).start();
-
-    }
     public interface JobAdapterListener {
         void onContactSelected(Jobs contact);
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv;
+        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv,tv_customer_reference_number;
         Button edit_bt,bt_adpjoblist_attachment;
 
         public MyHolder(View itemView) {
             super(itemView);
             header_tv = itemView.findViewById(R.id.tv_adpjoblist_state);
+            tv_customer_reference_number = itemView.findViewById(R.id.tv_customer_reference_number);
             id_tv = itemView.findViewById(R.id.tv_adpjoblist_id);
             estd_tv = itemView.findViewById(R.id.tv_adpjoblist_est_price);
             customer_tv = itemView.findViewById(R.id.tv_adpjoblist_customer);

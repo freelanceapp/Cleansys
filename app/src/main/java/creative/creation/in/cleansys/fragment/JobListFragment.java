@@ -114,6 +114,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
             boolean error = response.getBoolean("error");
             String msg = response.getString("message");
             if (!error) {
+                list.clear();
                 JSONArray array = response.getJSONArray("job_list");
                 if (array.length() > 0) {
                     for (int i = 0; i < array.length(); i++) {
@@ -178,22 +179,26 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
         String sName = searchName.getText().toString();
         String fromDate = searchFromDate.getText().toString();
         String toDate = searchToDate.getText().toString();
-        if (sName.equals("")) {
+       /* if (sName.equals("")) {
             Alerts.show(mContext, "Please Enter Search Name");
         } else if (fromDate.equals("")) {
             Alerts.show(mContext, "Select From Date");
         } else if (toDate.equals("")) {
             Alerts.show(mContext, "Select To Date");
-        } else {
+        } else {*/
 
-            if (cd.isNetworkAvailable()) {
-                RetrofitService.searchList(new Dialog(mContext), retrofitApiClient.searchApi(fromDate, sName, toDate), new WebResponse() {
-                    @Override
-                    public void onResponseSuccess(Response<?> result) {
-                        SearchModel loginModal = (SearchModel) result.body();
-                        assert loginModal != null;
-                        if (!loginModal.getError()) {
-                            Alerts.show(mContext, loginModal.getMessage());
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.searchList(new Dialog(mContext), retrofitApiClient.searchApi(fromDate, sName, toDate), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    SearchModel loginModal = (SearchModel) result.body();
+                    assert loginModal != null;
+                    if (!loginModal.getError()) {
+                        list.clear();
+                        Alerts.show(mContext, loginModal.getMessage());
+                        if (loginModal.getJobList() == null) {
+                            Alerts.show(mContext, "List not Avilable");
+                        } else {
 
                             for (int i = 0; i < loginModal.getJobList().size(); i++) {
                                 String getAssets = loginModal.getJobList().get(i).getAssets();
@@ -217,26 +222,27 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
 
                                 list.add(jobList);
                             }
-                            adapter.notifyDataSetChanged();
+                        }
+                        adapter.notifyDataSetChanged();
 
                            /* ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list2);
                             select_cust_0sp.setAdapter(adapter);*/
-                            //clear();
-                        } else {
-                            Alerts.show(mContext, loginModal.getMessage());
-                        }
+                        //clear();
+                    } else {
+                        Alerts.show(mContext, loginModal.getMessage());
                     }
+                }
 
-                    @Override
-                    public void onResponseFailed(String error) {
-                        Alerts.show(mContext, error);
-                    }
-                });
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                }
+            });
 
-            } else {
-                cd.show(mContext);
-            }
+        } else {
+            cd.show(mContext);
         }
+        // }
     }
 
     private void JoblistList() {

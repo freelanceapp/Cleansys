@@ -182,7 +182,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void validation() {
-        CrewList = spCrewList.getSelectedItem().toString();
+        //CrewList = spCrewList.getSelectedItem().toString();
         location = select_cust_0sp.getSelectedItem().toString();
         jobDetail = et_0_jobdescr.getText().toString();
         pr_source = spSourceAdv.getSelectedItem().toString();
@@ -685,7 +685,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     pyd_date_depost_recived, pyd_depost_amount_recived, pyd_invoice_number, pyd_payment_status,
                     pyd_date_completd_payment_recived, pyd_non_payment_reson, pyd_payment_method, pyd_card_auth_code, pyd_invoice_status,
                     pyd_completd_payment_recived, cb_job_details, cb_callback_reason, cb_callback_reason_other, cb_callback_reason_complaint,
-                    cb_parent_job, cb_follow_up_date, fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute, CrewList
+                    cb_parent_job, cb_follow_up_date, fb_fdbck_for, fb_fdbck_comments, fb_fdbck_category, effrt, hour, minute, strData
             ), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {

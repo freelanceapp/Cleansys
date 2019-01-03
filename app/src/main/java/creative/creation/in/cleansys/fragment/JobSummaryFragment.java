@@ -357,7 +357,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
 
         if (location.equals("") || jobDetail.equals("") || pr_source.equals("") || pr_other_adv_source.equals("") || pr_type.equals("") || pr_commercial_property.equals("")
                 || pr_no_of_storages.equals("") || pr_dormer_windows_present.equals("")) {
-            Alerts.show(mContext, "Input");
+            //Alerts.show(mContext, "Input");
         } else {
 
         }
@@ -658,7 +658,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         String strSplitTwo[] = strOne.split("\\]");
         String strData = strSplitTwo[0];
         strData = strData + "]";
-        Alerts.show(mContext, strData);
+       // Alerts.show(mContext, strData);
 
         if (hour.isEmpty()) {
             hour = "0";

@@ -1,16 +1,16 @@
 
 package creative.creation.in.cleansys.modal.api_modal.Customer_Detail;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class JobDataDetail implements Parcelable
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class JobDataDetail implements Parcelable {
 
     @SerializedName("job_data")
     @Expose
@@ -41,12 +41,13 @@ public class JobDataDetail implements Parcelable
     private JbDetails jbDetails;
     @SerializedName("crew")
     @Expose
-    private Object crew;
+    //private CustomerCrewData crew;
+    private List<CustomerCrewData> crew = new ArrayList<CustomerCrewData>();
     public final static Creator<JobDataDetail> CREATOR = new Creator<JobDataDetail>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public JobDataDetail createFromParcel(Parcel in) {
             return new JobDataDetail(in);
@@ -56,8 +57,7 @@ public class JobDataDetail implements Parcelable
             return (new JobDataDetail[size]);
         }
 
-    }
-    ;
+    };
 
     protected JobDataDetail(Parcel in) {
         this.jobData = ((JobData) in.readValue((JobData.class.getClassLoader())));
@@ -69,7 +69,7 @@ public class JobDataDetail implements Parcelable
         this.callback = ((Callback) in.readValue((Callback.class.getClassLoader())));
         this.techFeedback = ((TechFeedback) in.readValue((TechFeedback.class.getClassLoader())));
         this.jbDetails = ((JbDetails) in.readValue((JbDetails.class.getClassLoader())));
-        this.crew = ((Object) in.readValue((Object.class.getClassLoader())));
+        in.readList(this.crew, (CustomerCrewData.class.getClassLoader()));
     }
 
     public JobDataDetail() {
@@ -194,16 +194,15 @@ public class JobDataDetail implements Parcelable
     }
 
 
-
-    public Object getCrew() {
+    public List<CustomerCrewData> getCrew() {
         return crew;
     }
 
-    public void setCrew(Object crew) {
+    public void setCrew(List<CustomerCrewData> crew) {
         this.crew = crew;
     }
 
-    public JobDataDetail withCrew(Object crew) {
+    public JobDataDetail withCrew(List<CustomerCrewData> crew) {
         this.crew = crew;
         return this;
     }
@@ -222,7 +221,7 @@ public class JobDataDetail implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

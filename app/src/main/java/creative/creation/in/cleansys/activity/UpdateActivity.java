@@ -32,6 +32,7 @@ import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
 import creative.creation.in.cleansys.adapter.CrewSpinnerAdapter;
 import creative.creation.in.cleansys.modal.Model;
+import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerCrewData;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
@@ -808,7 +809,18 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                             getCrew(strDate + " " + strTime);
                         }
 
+                        List<CustomerCrewData> customerCrewData = new ArrayList<>();
+                        customerCrewData.addAll(loginModal.getJobdata().getCrew());
                         setSpinner(loginModal);
+
+                        if (customerCrewData == null)
+                            return;
+                        for (int i = 0; i < customerCrewData.size(); i++) {
+                            Model md = new Model(customerCrewData.get(i).getUserName(), customerCrewData.get(i).getUsrId());
+                            ItemModelList.add(md);
+                        }
+
+                        attechAdapter.notifyDataSetChanged();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                         Log.e("", loginModal.getMessage());

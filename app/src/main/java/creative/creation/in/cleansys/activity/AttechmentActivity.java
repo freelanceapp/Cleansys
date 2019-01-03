@@ -270,7 +270,6 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         return "";
     }
 
-
     protected void checkPermission() {
         if (ContextCompat.checkSelfPermission(AttechmentActivity.this, Manifest.permission.CAMERA)
                 + ContextCompat.checkSelfPermission(AttechmentActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)

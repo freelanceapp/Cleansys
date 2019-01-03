@@ -11,10 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import creative.creation.in.cleansys.R;
-import creative.creation.in.cleansys.modal.DateEvent;
 import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.Event;
-import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
-import creative.creation.in.cleansys.model.PriceModel1;
 
 public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyHolder> {
     Context ctx;
@@ -35,15 +32,45 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
-        holder.tv_start_date.setText(priceModel1ArrayList.get(position).getStart());
-        holder.tv_start_date.setText(priceModel1ArrayList.get(position).getStart());
-        holder.tv_name.setText(""+priceModel1ArrayList.get(position).getName());
-        holder.tv_title.setText(priceModel1ArrayList.get(position).getTitle());
-        holder.start_email.setText(""+priceModel1ArrayList.get(position).getEmail());
-        holder.date_city.setText(""+priceModel1ArrayList.get(position).getCity());
-        holder.date_postal_code.setText(""+priceModel1ArrayList.get(position).getPostCode());
-        holder.date_street.setText(priceModel1ArrayList.get(position).getStart());
-        holder.date_phone.setText(""+priceModel1ArrayList.get(position).getPhone());
+
+        String strStart = priceModel1ArrayList.get(position).getStart();
+        String strName = priceModel1ArrayList.get(position).getName();
+        String strTitle = priceModel1ArrayList.get(position).getTitle();
+        String strEmail = priceModel1ArrayList.get(position).getEmail();
+        String strCity = priceModel1ArrayList.get(position).getCity();
+        String strPostCode = priceModel1ArrayList.get(position).getPostCode();
+        String strPhone = priceModel1ArrayList.get(position).getPhone();
+        if (strStart==null) {
+            strStart = "";
+        }
+        if (strName==null) {
+            strName = "";
+        }
+        if (strTitle==null) {
+            strTitle = "";
+        }
+        if (strEmail==null) {
+            strEmail = "";
+        }
+        if (strCity==null) {
+            strCity = "";
+        }
+        if (strPostCode==null) {
+            strPostCode = "";
+        }
+        if (strPhone==null) {
+            strPhone = "";
+        }
+
+
+        holder.tv_start_date.setText(strStart);
+        holder.tv_name.setText("" + strName);
+        holder.tv_title.setText(strTitle);
+        holder.start_email.setText("" + strEmail);
+        holder.date_city.setText("" + strCity);
+        holder.date_postal_code.setText("" + strPostCode);
+        holder.date_street.setText(strStart);
+        holder.date_phone.setText("" + strPhone);
 
 
     }
@@ -55,7 +82,7 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyHold
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_start_date,tv_title,tv_name,start_email,date_phone,date_city,date_postal_code,date_street;
+        TextView tv_start_date, tv_title, tv_name, start_email, date_phone, date_city, date_postal_code, date_street;
 
         public MyHolder(View itemView) {
             super(itemView);

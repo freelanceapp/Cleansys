@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/common_5_dp">
@@ -9,44 +8,53 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
+            android:id="@+id/start_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="demo"
-            android:id="@+id/start_date"/>
+            android:text="demo" />
+
         <TextView
+            android:id="@+id/date_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/date_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/start_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date_title"/>
+            android:text="demo" />
+
         <TextView
+            android:id="@+id/date_phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_name"/>
+            android:layout_height="wrap_content" />
+
         <TextView
+            android:id="@+id/date_location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="demo"
-            android:id="@+id/start_email"/>
+            android:layout_height="wrap_content" />
+
         <TextView
+            android:id="@+id/date_city"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_phone"/>
+            android:layout_height="wrap_content" />
+
         <TextView
+            android:id="@+id/date_postal_code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_location"/>
+            android:layout_height="wrap_content" />
+
         <TextView
+            android:id="@+id/date_street"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_city"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_postal_code"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_street"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </RelativeLayout>

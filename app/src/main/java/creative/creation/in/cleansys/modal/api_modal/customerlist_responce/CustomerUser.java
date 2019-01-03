@@ -13,6 +13,9 @@ public class CustomerUser implements Parcelable
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("name_postcode")
+    @Expose
+    private String namePostcode;
     public final static Creator<CustomerUser> CREATOR = new Creator<CustomerUser>() {
 
 
@@ -32,6 +35,7 @@ public class CustomerUser implements Parcelable
 
     protected CustomerUser(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));
+        this.namePostcode = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public CustomerUser() {
@@ -39,6 +43,14 @@ public class CustomerUser implements Parcelable
 
     public String getName() {
         return name;
+    }
+
+    public String getNamePostcode() {
+        return namePostcode;
+    }
+
+    public void setNamePostcode(String namePostcode) {
+        this.namePostcode = namePostcode;
     }
 
     public void setName(String name) {
@@ -52,6 +64,7 @@ public class CustomerUser implements Parcelable
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(name);
+        dest.writeValue(namePostcode);
     }
 
     public int describeContents() {

@@ -11,9 +11,7 @@ import creative.creation.in.cleansys.modal.api_modal.attechment_responce.Attechm
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
-import creative.creation.in.cleansys.modal.api_modal.schedular_response.SchedularModel;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
-import creative.creation.in.cleansys.modal.api_modal.vendor_detail.VendorDetailMainModal;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import creative.creation.in.cleansys.utils.AppProgressDialog;
 import okhttp3.OkHttpClient;
@@ -29,8 +27,8 @@ public class RetrofitService {
 
     public static RetrofitApiClient client;
     final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(60, TimeUnit.SECONDS)
-            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
             .build();
 
     public RetrofitService() {

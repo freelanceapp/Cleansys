@@ -72,7 +72,6 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         return (null != joblist ? joblist.size() : 0);
     }
 
-
     public interface JobAdapterListener {
         void onContactSelected(Jobs contact);
     }

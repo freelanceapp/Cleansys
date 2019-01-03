@@ -32,6 +32,7 @@ import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
 import creative.creation.in.cleansys.adapter.CrewSpinnerAdapter;
 import creative.creation.in.cleansys.modal.Model;
+import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerCrewData;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
@@ -158,6 +159,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
+        customerDetail();
     }
 
     private void getCrew(String strDateTime) {
@@ -184,6 +186,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     private void validation() {
         //CrewList = spCrewList.getSelectedItem().toString();
         location = select_cust_0sp.getSelectedItem().toString();
+        ((TextView) findViewById(R.id.tvName)).setText(location);
         jobDetail = et_0_jobdescr.getText().toString();
         pr_source = spSourceAdv.getSelectedItem().toString();
         pr_other_adv_source = etOtherSourceAdv.getText().toString();
@@ -729,7 +732,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                         select_cust_0sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                ((TextView) findViewById(R.id.tvName)).setText(parent.getItemAtPosition(position).toString());
+                                //((TextView) findViewById(R.id.tvName)).setText(parent.getItemAtPosition(position).toString());
                             }
 
                             @Override
@@ -746,6 +749,88 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onResponseFailed(String error) {
                     Alerts.show(mContext, error);
+                }
+            });
+
+        } else {
+            cd.show(mContext);
+        }
+    }
+
+    private void customerDetail() {
+        if (cd.isNetworkAvailable()) {
+            RetrofitService.getCustomerDetail(new Dialog(mContext), retrofitApiClient.getCustomerDetail(jobId), new WebResponse() {
+                @Override
+                public void onResponseSuccess(Response<?> result) {
+                    CustomerDetailModel1 loginModal = (CustomerDetailModel1) result.body();
+                    assert loginModal != null;
+                    if (!loginModal.getError()) {
+                        Alerts.show(mContext, loginModal.getMessage());
+                        etOtherSourceAdv.setText("Hello");
+                        et_0_jobdescr.setText(loginModal.getJobdata().getJobData().getJsDesc());
+                        pdUrgentHandoverNotes.setText(loginModal.getJobdata().getTaskPropertyDetails().getUrgentHandoverNotes());
+
+                        ((TextView) findViewById(R.id.tvName)).setText(loginModal.getJobdata().getJobData().getCustLocat());
+
+                        etOtherSourceAdv.setText(loginModal.getJobdata().getTaskPropertyDetails().getOtherAdvert());
+                        etVisitedNotGivenReason.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdVisitedNotGivenReason());
+                        tvBookedJobDate.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdBookDate());
+                        tvBookedJobTime.setText(loginModal.getJobdata().getQouteDeriefFollowUp().getQdBookTime());
+                        etNoteAnyDefectsTakeInformCustomer.setText(loginModal.getJobdata().getJobBreif().getJbPostInspectCompl());
+                        etJobNoReason.setText(loginModal.getJobdata().getJobBreif().getJbCancelReson());
+                        etJobNoNoteActionRequired.setText(loginModal.getJobdata().getJobBreif().getJbIfNoNoteActionReq());
+                        etJobOtherDetails.setText(loginModal.getJobdata().getJobBreif().getJbOtherDetails());
+                        etJobNoteanyissuesordamagesandensurepictureshavebeenuploaded.setText(loginModal.getJobdata().getJobBreif().getJbEquipPassedInPreUseInspect());
+                        tvPaymentDateCompletionPaymentReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydComplPaymentRecieve());
+                        tvPaymentDateDepositReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydDateDepostiRecieve());
+                        etPaymentDepositAmountReceived.setText(loginModal.getJobdata().getPaymentDetails().getPaydDateDepostiRecieve());
+                        etPaymentInvoiceNumber.setText(loginModal.getJobdata().getPaymentDetails().getPaydInvoiceNumber());
+                        etPaymentNonPaymentReason.setText(loginModal.getJobdata().getPaymentDetails().getPaydNonPaymentReason());
+                        etCardAuthCode.setText(loginModal.getJobdata().getPaymentDetails().getPaydCardAuthCode());
+                        etCallBackJobdetails.setText(loginModal.getJobdata().getCallback().getCbJbDetail());
+                        etCallBackReasonComplaint.setText(loginModal.getJobdata().getCallback().getCbComplaint());
+                        etCallBackReasonOther.setText(loginModal.getJobdata().getCallback().getCbReasonOther());
+                        etParentJob.setText(loginModal.getJobdata().getCallback().getCbParentJb());
+                        tvFollowUpDate.setText(loginModal.getJobdata().getCallback().getCbFollowUpDate());
+                        etComments.setText(loginModal.getJobdata().getTechFeedback().getTfComments());
+                        tvDetailDateandTime.setText(loginModal.getJobdata().getJbDetails().getScheduleDateTime());
+                        //clear();
+                        strDate = loginModal.getJobdata().getJbDetails().getScheduleDateTime();
+                        hour = spDetailHourse.getSelectedItem().toString();
+                        minute = spDetailMinuts.getSelectedItem().toString();
+                        if (strDate.isEmpty()) {
+                            Alerts.show(mContext, "Please select date!!!");
+                        } else {
+                            if (hour.isEmpty()) {
+                                strTime = "";
+                            } else {
+                                strTime = hour + ":" + minute;
+                            }
+                            getCrew(strDate + " " + strTime);
+                        }
+
+                        List<CustomerCrewData> customerCrewData = new ArrayList<>();
+                        customerCrewData.addAll(loginModal.getJobdata().getCrew());
+                        setSpinner(loginModal);
+
+                        if (customerCrewData == null)
+                            return;
+                        for (int i = 0; i < customerCrewData.size(); i++) {
+                            Model md = new Model(customerCrewData.get(i).getUserName(), customerCrewData.get(i).getUsrId());
+                            ItemModelList.add(md);
+                        }
+
+                        attechAdapter.notifyDataSetChanged();
+                    } else {
+                        Alerts.show(mContext, loginModal.getMessage());
+                        Log.e("", loginModal.getMessage());
+                    }
+                }
+
+                @Override
+                public void onResponseFailed(String error) {
+                    Alerts.show(mContext, error);
+                    Log.e("Error", error);
                 }
             });
 

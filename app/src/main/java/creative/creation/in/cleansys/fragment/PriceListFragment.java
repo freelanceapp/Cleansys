@@ -101,7 +101,7 @@ public class PriceListFragment extends BaseFragment implements FragmentChangeLis
                     PriceModel loginModal = (PriceModel) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
+                       // Alerts.show(mContext, loginModal.getMessage());
 
                         if (loginModal.get1ManBasicClearance().size() != 0) {
                             for (int i = 0; i < loginModal.get1ManBasicClearance().size(); i++) {

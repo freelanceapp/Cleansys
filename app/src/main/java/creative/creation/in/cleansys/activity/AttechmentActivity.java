@@ -200,9 +200,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY);
-		/*Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+		/*Intent galleryIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(galleryIntent, GALLERY);*/
     }
 
@@ -225,7 +223,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-                    Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
                     iv_image.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
@@ -238,7 +236,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             iv_image.setImageBitmap(thumbnail);
             saveImage(thumbnail);
-            Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -258,18 +256,15 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
             file.createNewFile();
             FileOutputStream fo = new FileOutputStream(file);
             fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(ctx, new String[]{file.getPath()},
-                    new String[]{"image/*"}, null);
+            MediaScannerConnection.scanFile(ctx, new String[]{file.getPath()}, new String[]{"image/*"}, null);
             fo.close();
             Log.e("TAG", "File Saved::--->" + file.getAbsolutePath());
-
             return file.getAbsolutePath();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
         return "";
     }
-
 
     protected void checkPermission() {
         if (ContextCompat.checkSelfPermission(AttechmentActivity.this, Manifest.permission.CAMERA)

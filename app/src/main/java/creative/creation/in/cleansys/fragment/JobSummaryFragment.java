@@ -688,7 +688,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     ResponseBody loginModal = (ResponseBody) result.body();
                     try {
                         JSONObject jsonObject = new JSONObject(loginModal.string());
-                        Alerts.show(mContext, "" + jsonObject);
+                       // Alerts.show(mContext, "" + jsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

@@ -254,6 +254,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                 @Override
                 public void onResponseSuccess(Response<?> result) {
                     SearchModel loginModal = (SearchModel) result.body();
+                    list.clear();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());

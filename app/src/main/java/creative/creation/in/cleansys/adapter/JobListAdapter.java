@@ -1,33 +1,22 @@
 package creative.creation.in.cleansys.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.activity.AttechmentActivity;
 import creative.creation.in.cleansys.activity.UpdateActivity;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.JobList;
 import creative.creation.in.cleansys.model.Jobs;
-
-import static rx.plugins.RxJavaHooks.clear;
 
 public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder> {
     Context ctx;
@@ -62,8 +51,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         holder.edit_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ctx,UpdateActivity.class);
-                intent.putExtra("job_id",joblist.get(position).getJobId());
+                Intent intent = new Intent(ctx, UpdateActivity.class);
+                intent.putExtra("job_id", joblist.get(position).getJobId());
                 ctx.startActivity(intent);
 
             }
@@ -71,8 +60,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         holder.bt_adpjoblist_attachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ctx,AttechmentActivity.class);
-                intent.putExtra("job_id",joblist.get(position).getJldData());
+                Intent intent = new Intent(ctx, AttechmentActivity.class);
+                intent.putExtra("job_id", joblist.get(position).getJobId());
                 ctx.startActivity(intent);
             }
         });
@@ -80,8 +69,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
 
     @Override
     public int getItemCount() {
-        return (null != joblist ? joblist.size() : 0);    }
-
+        return (null != joblist ? joblist.size() : 0);
+    }
 
 
     public interface JobAdapterListener {
@@ -90,8 +79,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv,tv_customer_reference_number;
-        Button edit_bt,bt_adpjoblist_attachment;
+        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv, tv_customer_reference_number;
+        Button edit_bt, bt_adpjoblist_attachment;
 
         public MyHolder(View itemView) {
             super(itemView);

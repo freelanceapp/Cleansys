@@ -15,7 +15,7 @@ public class Constant {
     public static final String CUSTOMER = "api/create_customer.php";
     public static final String FORM_FILL = "api/form-api.php";
     public static final String UPDATE_FORM = "api/update_job.php";
-    public static final String SCHEDULAR = "api/scheduler.php";
+    public static final String SCHEDULAR = "api/scheduler1.php";
     public static final String PRICE_LIST = "api/price_list.php";
     public static final String ATTECH_FILE = "api/upload-file.php";
     public static final String CUSTOMER_LIST = "api/select_customer.php";

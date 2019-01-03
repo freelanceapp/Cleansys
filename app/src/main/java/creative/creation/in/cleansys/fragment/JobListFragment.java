@@ -67,6 +67,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
     }
 
     private void initXml() {
+        ((Button) rootView.findViewById(R.id.refreshButton)).setOnClickListener(this);
         searchName = rootView.findViewById(R.id.search_name);
         searchFromDate = rootView.findViewById(R.id.searchFromDate);
         searchToDate = rootView.findViewById(R.id.searchToDate);
@@ -165,6 +166,9 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
             case R.id.searchButton:
                 searchList();
                 break;
+            case R.id.refreshButton:
+                JoblistList();
+                break;
         }
     }
 
@@ -172,7 +176,6 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
     public void onFragmentVisible(String fragmentTag) {
 
     }
-
 
     private void searchList() {
         String sName = searchName.getText().toString();
@@ -291,6 +294,4 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
             cd.show(mContext);
         }
     }
-
-
 }

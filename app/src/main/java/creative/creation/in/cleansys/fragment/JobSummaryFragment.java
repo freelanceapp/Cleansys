@@ -168,7 +168,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     private void validation() {
-        crew_name = spCrewList.getSelectedItem().toString();
+        //crew_name = spCrewList.getSelectedItem().toString();
         location = select_cust_0sp.getSelectedItem().toString();
         jobDetail = et_0_jobdescr.getText().toString();
         pr_source = spSourceAdv.getSelectedItem().toString();

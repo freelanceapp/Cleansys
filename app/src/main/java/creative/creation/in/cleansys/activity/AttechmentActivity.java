@@ -17,33 +17,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,16 +40,12 @@ import java.util.ArrayList;
 
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.AttechmentAdapter;
-import creative.creation.in.cleansys.adapter.JobListAdapter;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentFile;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentModel;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
-import creative.creation.in.cleansys.modal.api_modal.login_response.LoginModal;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
 import creative.creation.in.cleansys.util.ConnectionDetector;
-import creative.creation.in.cleansys.util.Utility;
-import creative.creation.in.cleansys.util.WebApi;
 import creative.creation.in.cleansys.utils.Alerts;
 import creative.creation.in.cleansys.utils.BaseActivity;
 import okhttp3.MediaType;
@@ -93,7 +76,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
     private long refid;
     String fileURL;
     String songName;
-    String atId ;
+    String atId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,7 +206,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-                  //  Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
                     iv_image.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
@@ -236,7 +219,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             iv_image.setImageBitmap(thumbnail);
             saveImage(thumbnail);
-           // Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -389,28 +372,11 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                     if (attechmentModel.getFile() == null)
                         return;
                     if (!attechmentModel.getError()) {
-                        Alerts.show(mContext, attechmentModel.getMessage());
-                        /*for (int i = 0 ; i < attechmentModel.getFile().size() ; i++)
-                        {
-                            AttechmentFile attechmentFile = new AttechmentFile();
-                            attechmentFile.setAttachId(attechmentModel.getFile().get(i).getAttachPath());
-                            attechmentFile.setAttachPath(attechmentModel.getFile().get(i).getAttachPath());
-                            attechmentFile.setJobId(attechmentModel.getFile().get(i).getJobId());
-                            Log.e("File",".."+attechmentModel.getFile().get(i).getAttachPath());
-                            attechmentFileArrayList.add(attechmentFile);
-                        }*/
-
                         attechmentFileArrayList.addAll(attechmentModel.getFile());
-
-                        // attechmentFileArrayList.addAll(attechmentModel.getFile());
-
                     } else {
                         Alerts.show(mContext, attechmentModel.getMessage());
-
                     }
                     attechmentAdapter.notifyDataSetChanged();
-
-
                 }
 
                 @Override
@@ -418,9 +384,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                     Alerts.show(mContext, error);
                 }
             });
-        } else
-
-        {
+        } else {
             cd.show(mContext);
         }
     }
@@ -435,9 +399,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());
-
                         attechmentApi();
-                        //clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -449,9 +411,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                     Alerts.show(mContext, error);
                 }
             });
-        } else
-
-        {
+        } else {
             cd.show(mContext);
         }
     }
@@ -462,11 +422,9 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         fileURL = fileURL.replace(" ", "%20");
         songName = favourite.getJobId();
         Download_Uri = Uri.parse("http://codeencrypt.in/cleansys/uploads/Copy%20of%20Diwali%20-%20Made%20with%20PosterMyWall.jpg");
-        // Download_Uri = Uri.parse(fileURL);
         if (fileURL.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No url found", Toast.LENGTH_SHORT).show();
         } else {
-            //new GetContacts().execute();
             downLoadManagerSong();
         }
     }

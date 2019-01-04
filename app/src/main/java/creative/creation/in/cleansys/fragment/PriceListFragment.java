@@ -101,8 +101,6 @@ public class PriceListFragment extends BaseFragment implements FragmentChangeLis
                     PriceModel loginModal = (PriceModel) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                       // Alerts.show(mContext, loginModal.getMessage());
-
                         if (loginModal.get1ManBasicClearance().size() != 0) {
                             for (int i = 0; i < loginModal.get1ManBasicClearance().size(); i++) {
                                 String time = loginModal.get1ManBasicClearance().get(i).getTime();
@@ -124,7 +122,6 @@ public class PriceListFragment extends BaseFragment implements FragmentChangeLis
                                 list3.add(new PriceModel1(time, amount));
                             }
                         }
-
                         PriceListAdapter adapter = new PriceListAdapter(mContext, list1);
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
                         recyclerView.setLayoutManager(mLayoutManager);

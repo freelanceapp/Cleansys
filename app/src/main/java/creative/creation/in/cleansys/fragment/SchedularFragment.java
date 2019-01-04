@@ -105,7 +105,6 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
     }
 
     private void schedularApi() {
-        //Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
         if (cd.isNetworkAvailable()) {
             RetrofitService.getSchedular(new Dialog(mContext), retrofitApiClient.getSchedular(), new WebResponse() {
                 @Override

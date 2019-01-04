@@ -170,7 +170,7 @@ public class CreateCustomerFragment extends BaseFragment implements FragmentChan
                     CutomerModel loginModal = (CutomerModel) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
+                        //Alerts.show(mContext, loginModal.getMessage());
                         clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());

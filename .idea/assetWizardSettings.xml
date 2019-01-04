@@ -3,11 +3,6 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
-        <entry key="imageWizard">
-          <value>
-            <PersistentState />
-          </value>
-        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -23,11 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-<<<<<<< HEAD
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_delete_forever_black_24dp.xml" />
-=======
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_do_not_disturb_on_black_24dp.xml" />
->>>>>>> 284ea9b3e2bb98746efe7bf5bc0321bf999b8f54
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_refresh_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -37,15 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-<<<<<<< HEAD
-                            <entry key="outputName" value="icdelete" />
-                            <entry key="overrideSize" value="true" />
+                            <entry key="color" value="fdfdfd" />
+                            <entry key="outputName" value="ic_refresh" />
                             <entry key="sourceFile" value="C:\Users\Windows 7" />
-=======
-                            <entry key="color" value="ea0903" />
-                            <entry key="outputName" value="ic_remove" />
-                            <entry key="sourceFile" value="C:\Users\amar" />
->>>>>>> 284ea9b3e2bb98746efe7bf5bc0321bf999b8f54
                           </map>
                         </option>
                       </PersistentState>

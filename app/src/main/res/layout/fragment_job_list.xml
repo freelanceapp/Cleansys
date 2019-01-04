@@ -7,11 +7,11 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
@@ -115,7 +115,7 @@
                         android:layout_marginTop="@dimen/common_3_dp"
                         android:layout_marginRight="@dimen/common_10_dp"
                         android:background="@drawable/x_button"
-                        android:text="Refresh"
+                        android:text="Clear"
                         android:textColor="@color/white" />
 
                 </RelativeLayout>

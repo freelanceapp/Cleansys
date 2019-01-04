@@ -16,9 +16,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:background="@color/black"
                 android:gravity="center"
                 android:padding="10dp"
@@ -29,12 +28,11 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_state"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@color/black"
                 android:padding="10dp"
-                android:text="Scheduled"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -43,14 +41,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="ID "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -58,12 +55,9 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_id"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="1"
+                android:layout_weight="0.8"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -71,14 +65,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Payment Status "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -86,11 +81,9 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_scdule"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="Not Scheduled"
+                android:layout_weight="0.8"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -98,14 +91,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Crew Members"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -113,10 +107,9 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_member"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -124,14 +117,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Customer  "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -139,10 +133,9 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_customer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="[,MRS Massey RG9 5HN] RG9 5HN, 28 Shiplake Bottom, Henley- On - Thames, RG9 5HN"
+                android:layout_weight="0.8"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -150,14 +143,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Est.Price	"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -165,10 +159,10 @@
 
             <TextView
                 android:id="@+id/tv_adpjoblist_est_price"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="£sfgsdgag"
+                android:layout_weight="0.8"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -176,25 +170,52 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
-                android:text="customer Reference Number	"
+                android:layout_weight="1.2"
+                android:text="Attachment"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAttachment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Customer Ref#"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_customer_reference_number"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="£sfgsdgag"
+                android:layout_weight="0.8"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>

@@ -413,7 +413,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         } else {
             pyd_completd_payment_recived = "0";
         }
-
         createForm();
     }
 
@@ -518,7 +517,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         spDetailMinuts = rootView.findViewById(R.id.spDetailsMinuts);
 
         jobdecrip_et = rootView.findViewById(R.id.et_0_jobdescr);
-
 
         btn_refresh = rootView.findViewById(R.id.btn_refresh);
         btn_refresh.setOnClickListener(this);
@@ -743,7 +741,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     ResponseBody loginModal = (ResponseBody) result.body();
                     try {
                         JSONObject jsonObject = new JSONObject(loginModal.string());
-
                         Alerts.show(mContext, jsonObject.getString("message"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -772,7 +769,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     customerUserList.clear();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
+                        //Alerts.show(mContext, loginModal.getMessage());
                         customerUserList.addAll(loginModal.getUser());
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
@@ -799,7 +796,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     CutomerModel loginModal = (CutomerModel) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
+                        //Alerts.show(mContext, loginModal.getMessage());
                         //clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());

@@ -19,8 +19,6 @@ import creative.creation.in.cleansys.utils.Alerts;
 import creative.creation.in.cleansys.utils.ConnectionDetector;
 import retrofit2.Response;
 
-import static creative.creation.in.cleansys.activity.SplashActivity.APP_NAME;
-
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
     String user_id;
@@ -29,6 +27,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public ConnectionDetector cd;
     public Context mContext;
     String refreshedToken;
+
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
@@ -64,18 +63,16 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
 
-
     private void apiToken() {
 
         if (cd.isNetworkAvailable()) {
-            RetrofitService.getFormFill(new Dialog(mContext), retrofitApiClient.getToken(user_id,refreshedToken), new WebResponse() {
+            RetrofitService.getFormFill(new Dialog(mContext), retrofitApiClient.getToken(user_id, refreshedToken), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
                     CutomerModel loginModal = (CutomerModel) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
-                        //clear();
+
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -92,7 +89,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         }
 
     }
-
 
 
 }

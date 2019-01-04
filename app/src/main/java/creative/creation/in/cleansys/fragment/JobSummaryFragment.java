@@ -127,6 +127,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     private CustomerListAdapter customerListAdapter;
     private List<CustomerUser> customerUserList = new ArrayList<>();
     private CutomerModel1 loginModal;
+    private String strFollowDate = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -665,7 +666,16 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tvFollowUpDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        strFollowDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+
+                        mTimePicker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                tvFollowUpDate.setText(strFollowDate + " " + selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour1, minute1, true);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();

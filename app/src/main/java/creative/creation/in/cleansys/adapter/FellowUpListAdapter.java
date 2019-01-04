@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import creative.creation.in.cleansys.R;
@@ -39,6 +38,7 @@ public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapte
         holder.tv_Customer_Email.setText("" + fellowupUserArrayList.get(position).getCustomerEmail());
         holder.tv_job_detail.setText("" + fellowupUserArrayList.get(position).getJobDetails());
         holder.tv_customer_phone.setText("" + fellowupUserArrayList.get(position).getCustomerPhone());
+        holder.tvFollowUpDate.setText("" + fellowupUserArrayList.get(position).getDateTime());
     }
 
     @Override
@@ -48,10 +48,12 @@ public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapte
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_customer_id, tv_job_ref_num_scdule, tv_Customer_full_Name, tv_Customer_Email, tv_job_detail, tv_customer_phone;
+        TextView tv_customer_id, tv_job_ref_num_scdule, tv_Customer_full_Name, tv_Customer_Email, tv_job_detail,
+                tv_customer_phone, tvFollowUpDate;
 
         public MyHolder(View itemView) {
             super(itemView);
+            tvFollowUpDate = itemView.findViewById(R.id.tvFollowUpDate);
             tv_customer_id = itemView.findViewById(R.id.tv_customer_id);
             tv_job_ref_num_scdule = itemView.findViewById(R.id.tv_job_ref_num_scdule);
             tv_Customer_full_Name = itemView.findViewById(R.id.tv_Customer_full_Name);

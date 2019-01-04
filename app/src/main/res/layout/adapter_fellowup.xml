@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="[,MRS Massey RG9 5HN] RG9 5HN, 28 Shiplake Bottom, Henley- On - Thames, RG9 5HN"
+                android:text="[,MRS Massey RG9 5HN]"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -166,6 +166,33 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:text="£sfgsdgag"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="Follow Up Date"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_form"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFollowUpDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>

@@ -1,11 +1,15 @@
 package creative.creation.in.cleansys.firebase;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -18,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import creative.creation.in.cleansys.R;
+import creative.creation.in.cleansys.activity.MainActivity;
 import creative.creation.in.cleansys.activity.SplashActivity;
 import creative.creation.in.cleansys.activity.UpdateActivity;
 
@@ -34,12 +39,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage == null)
             return;
 
-    /*    if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
-        }*/
-
-        if (remoteMessage.getData().size() > 0) {
+        if (remoteMessage.getNotification() != null) {
+            /*Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification().getBody());*/
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 sendNotification(json);
@@ -47,6 +49,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+
+        /*if (remoteMessage.getData().size() > 0) {
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                sendNotification(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+            }
+        }*/
     }
 
     private void handleNotification(String message) {
@@ -133,8 +144,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             data = json.getJSONObject("message");
             String title = data.getString("title");
             String body = data.getString("body");
-            String strSplit[] = body.split("-");
-            String strId = strSplit[1];
+            String strId = json.getString("job_id");
 
             if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                 // app is in foreground, broadcast the push message
@@ -145,7 +155,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent.putExtra("job_id", strId);
                 intent.putExtra("from", "notification");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                showNotification(intent, strSplit[0], "");
+                showNotification(intent, title, body);
 
                 // play notification sound
                 /*NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
@@ -155,7 +165,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent.putExtra("job_id", strId);
                 intent.putExtra("from", "notification");
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                showNotification(intent, strSplit[0], "");
+                showNotification(intent, title, body);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,6 +173,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(Intent intent, String title, String message) {
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = "Cleansys Job";// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        Notification notification;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -178,6 +199,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, notificationBuilder.build());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        } else {
+            notificationManager.notify(0, notificationBuilder.build());
+        }
     }
 }

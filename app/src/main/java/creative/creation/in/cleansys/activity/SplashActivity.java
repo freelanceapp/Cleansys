@@ -22,12 +22,20 @@ public class SplashActivity extends AppCompatActivity {
     public static String APP_NAME = "Cleansys";
     private String user_id;
     boolean isLogin = false;
+    private String strId = "";
+    private String strFrom = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ctx = this;
+
+        if (getIntent() != null) {
+            strId = getIntent().getStringExtra("job_id");
+            strFrom = getIntent().getStringExtra("from");
+        }
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         String tkn = FirebaseInstanceId.getInstance().getToken();
 
@@ -42,7 +50,15 @@ public class SplashActivity extends AppCompatActivity {
                 if (!isLogin) {
                     startActivity(new Intent(ctx, LoginActivity.class));
                 } else {
-                    startActivity(new Intent(ctx, MainActivity.class));
+
+                    if (strFrom==null) {
+                        startActivity(new Intent(ctx, MainActivity.class));
+                    } else {
+                        Intent intent = new Intent(ctx, UpdateActivity.class);
+                        intent.putExtra("job_id", strId);
+                        intent.putExtra("from", "notification");
+                    }
+
                     /*Intent intent = new Intent(ctx, JobSchedulerActivity1.class);
                     intent.putExtra("type", "login");
                     startActivity(intent);*/

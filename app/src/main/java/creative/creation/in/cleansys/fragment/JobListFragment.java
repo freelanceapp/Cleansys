@@ -222,6 +222,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                                 jobList.setJldData(getJldData);
                                 jobList.setJobId(getJobId);
                                 jobList.setPaymentStatus(getPaymentStatus);
+                                jobList.setCrewMember(loginModal.getJobList().get(i).getCrewMember());
 
                                 list.add(jobList);
                             }
@@ -278,6 +279,7 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                             jobList.setJldData(getJldData);
                             jobList.setJobId(getJobId);
                             jobList.setPaymentStatus(getPaymentStatus);
+                            jobList.setCrewMember(loginModal.getJobList().get(i).getCrewMember());
 
                             list.add(jobList);
                         }

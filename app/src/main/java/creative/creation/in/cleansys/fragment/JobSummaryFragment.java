@@ -7,16 +7,21 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -36,9 +41,11 @@ import creative.creation.in.cleansys.AppPreference;
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.CreawListAttechAdapter;
 import creative.creation.in.cleansys.adapter.CrewSpinnerAdapter;
+import creative.creation.in.cleansys.adapter.CustomerListAdapter;
 import creative.creation.in.cleansys.interfaces.FragmentChangeListener;
 import creative.creation.in.cleansys.modal.Model;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
+import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CustomerUser;
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import creative.creation.in.cleansys.modal.crew_modal.CrewUserList;
@@ -116,6 +123,10 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     private CrewSpinnerAdapter crewSpinnerAdapter;
     private String strCrewName = "";
     private String strCrewId = "";
+    private Dialog dialogCustomer;
+    private CustomerListAdapter customerListAdapter;
+    private List<CustomerUser> customerUserList = new ArrayList<>();
+    private CutomerModel1 loginModal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,11 +148,13 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     private void init() {
+        ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setOnClickListener(this);
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
         user_id = AppPreference.getStringPreference(mContext, "USER_ID");
         init0();
         apiToken();
         customerList();
+
         crewSpinnerAdapter = new CrewSpinnerAdapter(mContext, R.layout.spinner_layout, crewUserLists);
         spCrewList.setAdapter(crewSpinnerAdapter);
 
@@ -167,9 +180,57 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         });
     }
 
+    private void reviewDialog() {
+        dialogCustomer = new Dialog(mContext);
+        dialogCustomer.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogCustomer.setContentView(R.layout.dialog_customer_list);
+
+        dialogCustomer.setCanceledOnTouchOutside(true);
+        dialogCustomer.setCancelable(true);
+        if (dialogCustomer.getWindow() != null)
+            dialogCustomer.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        customerUserList.clear();
+        customerUserList.addAll(loginModal.getUser());
+
+        customerListAdapter = new CustomerListAdapter(mContext, R.layout.row_customer_list, customerUserList);
+        ListView listViewCustomer = (ListView) dialogCustomer.findViewById(R.id.listViewCustomer);
+        listViewCustomer.setAdapter(customerListAdapter);
+        customerListAdapter.notifyDataSetChanged();
+
+        listViewCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                location = customerUserList.get(position).getNamePostcode();
+                ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setText(location);
+                dialogCustomer.dismiss();
+            }
+        });
+
+        ((EditText) dialogCustomer.findViewById(R.id.edtSearchCustomer))
+                .addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence cs, int start, int before, int count) {
+                        customerListAdapter.getFilter().filter(cs);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+        Window window = dialogCustomer.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialogCustomer.show();
+    }
+
     private void validation() {
-        //crew_name = spCrewList.getSelectedItem().toString();
-        location = select_cust_0sp.getSelectedItem().toString();
         jobDetail = et_0_jobdescr.getText().toString();
         pr_source = spSourceAdv.getSelectedItem().toString();
         pr_other_adv_source = etOtherSourceAdv.getText().toString();
@@ -353,14 +414,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
             pyd_completd_payment_recived = "0";
         }
 
-        Log.e("Payment" + pyd_completd_payment_recived + ".." + pyd_invoice_status + ".." + pyd_card_auth_code, pyd_date_completd_payment_recived + pyd_payment_method + pyd_invoice_number);
-
-        if (location.equals("") || jobDetail.equals("") || pr_source.equals("") || pr_other_adv_source.equals("") || pr_type.equals("") || pr_commercial_property.equals("")
-                || pr_no_of_storages.equals("") || pr_dormer_windows_present.equals("")) {
-            //Alerts.show(mContext, "Input");
-        } else {
-
-        }
         createForm();
     }
 
@@ -422,8 +475,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
 
         spCrewList = rootView.findViewById(R.id.spCrewList);
         select_cust_0sp = rootView.findViewById(R.id.sp_0_selectcustomer);
-        select_contact_0sp = rootView.findViewById(R.id.sp_0_selectcustomer);
-        select_asset_0sp = rootView.findViewById(R.id.sp_0_selectcustomer);
         spSourceAdv = rootView.findViewById(R.id.spSourceAdv);
         spCommercialProperty = rootView.findViewById(R.id.spCommercialProperty);
         spPropertyType = rootView.findViewById(R.id.spPropertyType);
@@ -557,6 +608,11 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tvSelectCustomer:
+                if (loginModal != null) {
+                    reviewDialog();
+                }
+                break;
             case R.id.imgViewAdd:
                 addValue();
                 break;
@@ -658,7 +714,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         String strSplitTwo[] = strOne.split("\\]");
         String strData = strSplitTwo[0];
         strData = strData + "]";
-       // Alerts.show(mContext, strData);
 
         if (hour.isEmpty()) {
             hour = "0";
@@ -688,7 +743,8 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     ResponseBody loginModal = (ResponseBody) result.body();
                     try {
                         JSONObject jsonObject = new JSONObject(loginModal.string());
-                       // Alerts.show(mContext, "" + jsonObject);
+
+                        Alerts.show(mContext, jsonObject.getString("message"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -706,43 +762,18 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         }
     }
 
-    public JSONObject makJsonObject(int id[], String name[], int numberof_students)
-            throws JSONException {
-        JSONObject obj = null;
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < numberof_students; i++) {
-            obj = new JSONObject();
-            try {
-                obj.put("id", id[i]);
-                obj.put("name", name[i]);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            jsonArray.put(obj);
-        }
-        JSONObject finalobject = new JSONObject();
-        finalobject.put("crew", jsonArray);
-        return finalobject;
-    }
-
     private void customerList() {
         if (cd.isNetworkAvailable()) {
             RetrofitService.customerList(new Dialog(mContext), retrofitApiClient.customerList(
             ), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
-                    CutomerModel1 loginModal = (CutomerModel1) result.body();
+                    loginModal = (CutomerModel1) result.body();
+                    customerUserList.clear();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         Alerts.show(mContext, loginModal.getMessage());
-
-                        for (int i = 0; i < loginModal.getUser().size(); i++) {
-                            String name = loginModal.getUser().get(i).getName();
-                            list2.add(name);
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list2);
-                        select_cust_0sp.setAdapter(adapter);
-                        //clear();
+                        customerUserList.addAll(loginModal.getUser());
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }

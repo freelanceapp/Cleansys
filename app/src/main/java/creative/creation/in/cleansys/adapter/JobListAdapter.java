@@ -45,14 +45,25 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         holder.customer_tv.setText(joblist.get(position).getCustomer());
         holder.scedule_tv.setText(joblist.get(position).getPaymentStatus());
         holder.tv_customer_reference_number.setText(joblist.get(position).getCustomerReferenceNumber());
-           /* List<String> array = joblist.get(position).getCrewMember();
-            String member = array.get(0);
-            holder.member_tv.setText(member);*/
+
+        String member = "No Crew Members added";
+        if (joblist.get(position).getCrewMember().size() > 0) {
+            for (int i = 0; i < joblist.get(position).getCrewMember().size(); i++) {
+                if (i == 0) {
+                    member = joblist.get(position).getCrewMember().get(i);
+                } else {
+                    member = member + " , " + joblist.get(position).getCrewMember().get(i);
+                }
+            }
+        }
+
+        holder.member_tv.setText(member);
         holder.edit_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ctx, UpdateActivity.class);
                 intent.putExtra("job_id", joblist.get(position).getJobId());
+                intent.putExtra("from", "list");
                 ctx.startActivity(intent);
 
             }
@@ -72,7 +83,6 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
     public int getItemCount() {
         return (null != joblist ? joblist.size() : 0);
     }
-
 
     public interface JobAdapterListener {
         void onContactSelected(Jobs contact);

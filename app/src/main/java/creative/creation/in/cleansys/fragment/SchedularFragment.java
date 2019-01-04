@@ -96,7 +96,7 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
         try {
             date = inputFormat.parse(time);
             str = outputFormat.format(date);
-            schedularApi();
+            //schedularApi();
 
         } catch (ParseException e) {
             e.printStackTrace();

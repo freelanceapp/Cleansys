@@ -117,7 +117,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="No Crew Members added"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
@@ -204,6 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/bt_adpjoblist_edit"
                 android:layout_width="wrap_content"
@@ -219,14 +219,14 @@
                 android:id="@+id/bt_adpjoblist_attachment"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_alignParentRight="true"
                 android:layout_margin="15dp"
-                android:padding="@dimen/common_10_dp"
                 android:background="@drawable/x_button"
+                android:padding="@dimen/common_10_dp"
                 android:text="Attachment"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_form"
-                android:textStyle="bold"
-                android:layout_alignParentRight="true"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </LinearLayout>

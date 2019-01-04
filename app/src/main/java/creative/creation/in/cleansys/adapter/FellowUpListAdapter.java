@@ -1,24 +1,17 @@
 package creative.creation.in.cleansys.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
 import creative.creation.in.cleansys.R;
-import creative.creation.in.cleansys.activity.UpdateActivity;
 import creative.creation.in.cleansys.modal.api_modal.FellowUp_responce.FellowupUser;
-import creative.creation.in.cleansys.model.Jobs;
 
 public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapter.MyHolder> {
     Context ctx;
@@ -39,12 +32,12 @@ public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapte
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
 
-        holder.tv_customer_id.setText(""+fellowupUserArrayList.get(position).getCustomerRefUmber());
-        holder.tv_job_ref_num_scdule.setText(""+fellowupUserArrayList.get(position).getJobRefNum());
-        holder.tv_Customer_full_Name.setText(""+fellowupUserArrayList.get(position).getCustomerFullName());
-        holder.tv_Customer_Email.setText(""+fellowupUserArrayList.get(position).getCustomerEmail());
-        holder.tv_job_detail.setText(""+fellowupUserArrayList.get(position).getJobDetails());
-        holder.tv_customer_phone.setText(""+fellowupUserArrayList.get(position).getCustomerPhone());
+        holder.tv_customer_id.setText("" + fellowupUserArrayList.get(position).getCustomerRefUmber());
+        holder.tv_job_ref_num_scdule.setText("" + fellowupUserArrayList.get(position).getJobRefNum());
+        holder.tv_Customer_full_Name.setText("" + fellowupUserArrayList.get(position).getCustomerFullName());
+        holder.tv_Customer_Email.setText("" + fellowupUserArrayList.get(position).getCustomerEmail());
+        holder.tv_job_detail.setText("" + fellowupUserArrayList.get(position).getJobDetails());
+        holder.tv_customer_phone.setText("" + fellowupUserArrayList.get(position).getCustomerPhone());
 
     }
 

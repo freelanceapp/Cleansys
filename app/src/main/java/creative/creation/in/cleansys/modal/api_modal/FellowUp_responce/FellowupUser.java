@@ -28,6 +28,9 @@ public class FellowupUser implements Parcelable
     @SerializedName("customer_phone")
     @Expose
     private String customerPhone;
+    @SerializedName("date_time")
+    @Expose
+    private String dateTime;
     public final static Parcelable.Creator<FellowupUser> CREATOR = new Creator<FellowupUser>() {
 
 
@@ -52,6 +55,7 @@ public class FellowupUser implements Parcelable
         this.customerEmail = ((String) in.readValue((String.class.getClassLoader())));
         this.jobDetails = ((String) in.readValue((String.class.getClassLoader())));
         this.customerPhone = ((String) in.readValue((String.class.getClassLoader())));
+        this.dateTime = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public FellowupUser() {
@@ -112,6 +116,15 @@ public class FellowupUser implements Parcelable
         dest.writeValue(customerEmail);
         dest.writeValue(jobDetails);
         dest.writeValue(customerPhone);
+        dest.writeValue(dateTime);
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public int describeContents() {

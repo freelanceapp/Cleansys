@@ -106,7 +106,6 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
 
     private void schedularApi() {
         //Toast.makeText(mContext, str, Toast.LENGTH_LONG).show();
-
         if (cd.isNetworkAvailable()) {
             RetrofitService.getSchedular(new Dialog(mContext), retrofitApiClient.getSchedular(), new WebResponse() {
                 @Override
@@ -115,12 +114,10 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                        // Alerts.show(mContext, loginModal.getMessage());
-
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
                 }
-
                 @Override
                 public void onResponseFailed(String error) {
                     Alerts.show(mContext, error);

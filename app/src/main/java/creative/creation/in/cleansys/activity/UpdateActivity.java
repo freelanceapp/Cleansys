@@ -128,6 +128,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     private List<CustomerUser> customerUserList = new ArrayList<>();
     private CutomerModel1 loginModal;
     private String strType = "";
+    private String strFollowDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -679,7 +680,14 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                 datePickerDialog = new DatePickerDialog(UpdateActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tvFollowUpDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        mTimePicker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                tvFollowUpDate.setText(strFollowDate + " " + selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour1, minute1, true);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();
@@ -852,17 +860,20 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                             getCrew(strDate + " " + strTime);
                         }
 
-                        List<CustomerCrewData> customerCrewData = new ArrayList<>();
-                        customerCrewData.addAll(loginModal.getJobdata().getCrew());
-                        setSpinner(loginModal);
+                        if (loginModal.getJobdata().getCrew() == null) {
+                            Alerts.show(mContext, "Crew list not available");
+                        } else {
+                            List<CustomerCrewData> customerCrewData = new ArrayList<>();
+                            customerCrewData.addAll(loginModal.getJobdata().getCrew());
+                            setSpinner(loginModal);
 
-                        if (customerCrewData == null)
-                            return;
-                        for (int i = 0; i < customerCrewData.size(); i++) {
-                            Model md = new Model(customerCrewData.get(i).getUserName(), customerCrewData.get(i).getUsrId());
-                            ItemModelList.add(md);
+                            if (customerCrewData == null)
+                                return;
+                            for (int i = 0; i < customerCrewData.size(); i++) {
+                                Model md = new Model(customerCrewData.get(i).getUserName(), customerCrewData.get(i).getUsrId());
+                                ItemModelList.add(md);
+                            }
                         }
-
                         attechAdapter.notifyDataSetChanged();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());

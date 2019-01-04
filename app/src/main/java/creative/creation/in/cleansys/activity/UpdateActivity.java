@@ -776,15 +776,13 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 
     private void customerList() {
         if (cd.isNetworkAvailable()) {
-            RetrofitService.customerList(new Dialog(mContext), retrofitApiClient.customerList(
-            ), new WebResponse() {
+            RetrofitService.customerList(new Dialog(mContext), retrofitApiClient.customerList(), new WebResponse() {
                 @Override
                 public void onResponseSuccess(Response<?> result) {
                     loginModal = (CutomerModel1) result.body();
                     customerUserList.clear();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
                         customerUserList.addAll(loginModal.getUser());
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
@@ -810,7 +808,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     CustomerDetailModel1 loginModal = (CustomerDetailModel1) result.body();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
+                        //Alerts.show(mContext, loginModal.getMessage());
                         etOtherSourceAdv.setText("Hello");
                         et_0_jobdescr.setText(loginModal.getJobdata().getJobData().getJsDesc());
                         pdUrgentHandoverNotes.setText(loginModal.getJobdata().getTaskPropertyDetails().getUrgentHandoverNotes());

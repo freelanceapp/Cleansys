@@ -10,18 +10,16 @@
         android:background="@drawable/x_border_et"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Customer Ref Number "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -29,11 +27,9 @@
 
             <TextView
                 android:id="@+id/tv_customer_id"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
@@ -42,14 +38,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Job Ref Num "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -57,10 +54,9 @@
 
             <TextView
                 android:id="@+id/tv_job_ref_num_scdule"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="Not Scheduled"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
@@ -69,25 +65,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
-                android:text=" Customer full Name"
+                android:layout_weight="1.2"
+                android:text="Customer full Name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_Customer_full_Name"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="No Crew Members added"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
@@ -96,14 +92,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Customer Email  "
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -111,9 +108,9 @@
 
             <TextView
                 android:id="@+id/tv_Customer_Email"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="[,MRS Massey RG9 5HN] RG9 5HN, 28 Shiplake Bottom, Henley- On - Thames, RG9 5HN"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
@@ -122,14 +119,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Job details (Notes)"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -137,25 +135,26 @@
 
             <TextView
                 android:id="@+id/tv_job_detail"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="£sfgsdgag"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="@dimen/common_10_dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
+                android:layout_weight="1.2"
                 android:text="Customer Phone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form"
@@ -163,9 +162,9 @@
 
             <TextView
                 android:id="@+id/tv_customer_phone"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="£sfgsdgag"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_form" />

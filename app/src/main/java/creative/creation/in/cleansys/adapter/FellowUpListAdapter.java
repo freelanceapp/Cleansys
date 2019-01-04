@@ -9,15 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.modal.api_modal.FellowUp_responce.FellowupUser;
 
 public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapter.MyHolder> {
     Context ctx;
-    ArrayList<FellowupUser> fellowupUserArrayList;
+    List<FellowupUser> fellowupUserArrayList;
 
-    public FellowUpListAdapter(Context ctx, ArrayList<FellowupUser> fellowupUserArrayList) {
+    public FellowUpListAdapter(Context ctx, List<FellowupUser> fellowupUserArrayList) {
         this.ctx = ctx;
         this.fellowupUserArrayList = fellowupUserArrayList;
     }
@@ -38,7 +39,6 @@ public class FellowUpListAdapter extends RecyclerView.Adapter<FellowUpListAdapte
         holder.tv_Customer_Email.setText("" + fellowupUserArrayList.get(position).getCustomerEmail());
         holder.tv_job_detail.setText("" + fellowupUserArrayList.get(position).getJobDetails());
         holder.tv_customer_phone.setText("" + fellowupUserArrayList.get(position).getCustomerPhone());
-
     }
 
     @Override

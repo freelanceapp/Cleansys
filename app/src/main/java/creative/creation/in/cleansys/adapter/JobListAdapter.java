@@ -44,6 +44,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
         holder.estd_tv.setText(joblist.get(position).getEstPrice());
         holder.customer_tv.setText(joblist.get(position).getCustomer());
         holder.scedule_tv.setText(joblist.get(position).getPaymentStatus());
+        holder.tvAttachment.setText(joblist.get(position).getAttachments());
         holder.tv_customer_reference_number.setText(joblist.get(position).getCustomerReferenceNumber());
 
         String member = "No Crew Members added";
@@ -90,7 +91,8 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv, tv_customer_reference_number;
+        TextView header_tv, id_tv, estd_tv, customer_tv, scedule_tv, member_tv, tv_customer_reference_number,
+                tvAttachment;
         Button edit_bt, bt_adpjoblist_attachment;
 
         public MyHolder(View itemView) {
@@ -102,6 +104,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.MyHolder
             customer_tv = itemView.findViewById(R.id.tv_adpjoblist_customer);
             scedule_tv = itemView.findViewById(R.id.tv_adpjoblist_scdule);
             member_tv = itemView.findViewById(R.id.tv_adpjoblist_member);
+            tvAttachment = itemView.findViewById(R.id.tvAttachment);
             edit_bt = itemView.findViewById(R.id.bt_adpjoblist_edit);
             bt_adpjoblist_attachment = itemView.findViewById(R.id.bt_adpjoblist_attachment);
         }

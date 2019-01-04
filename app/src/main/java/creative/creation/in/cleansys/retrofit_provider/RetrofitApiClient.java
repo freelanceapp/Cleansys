@@ -3,6 +3,7 @@ package creative.creation.in.cleansys.retrofit_provider;
 
 import creative.creation.in.cleansys.constant.Constant;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
+import creative.creation.in.cleansys.modal.api_modal.FellowUp_responce.FellowUpModel;
 import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.SedularModel1;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentModel;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
@@ -233,7 +234,6 @@ public interface RetrofitApiClient {
                                 @Field("search_in") String search_in,
                                 @Field("searc_to") String searc_to);
 
-
     @POST(Constant.SEARCH_DATA)
     Call<SearchModel> jobListApi();
 
@@ -244,5 +244,8 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.CREW_LIST)
     Call<CrewMainModal> crewList(@Field("effrt") String effrt);
+
+    @GET(Constant.API_FELLOW_LIST)
+    Call<FellowUpModel> followUpList();
 
 }

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import creative.creation.in.cleansys.constant.Constant;
 import creative.creation.in.cleansys.modal.api_modal.Customer_Detail.CustomerDetailModel1;
+import creative.creation.in.cleansys.modal.api_modal.FellowUp_responce.FellowUpModel;
 import creative.creation.in.cleansys.modal.api_modal.Sedular_Responce1.SedularModel1;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentModel;
 import creative.creation.in.cleansys.modal.api_modal.customer_responce.CutomerModel;
@@ -57,20 +58,20 @@ public class RetrofitService {
         return client;
     }
 
-    public static void getResponse(final Dialog dialog, final Call<ResponseBody> method, final WebResponse webResponse) {
+    public static void getFollowUp(final Dialog dialog, final Call<FellowUpModel> method, final WebResponse webResponse) {
         if (dialog != null)
             AppProgressDialog.show(dialog);
 
-        method.enqueue(new Callback<ResponseBody>() {
+        method.enqueue(new Callback<FellowUpModel>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<FellowUpModel> call, Response<FellowUpModel> response) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 WebServiceResponse.handleResponse(response, webResponse);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+            public void onFailure(Call<FellowUpModel> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

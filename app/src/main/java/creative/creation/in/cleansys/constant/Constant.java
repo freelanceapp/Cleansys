@@ -25,7 +25,7 @@ public class Constant {
     public static final String SEARCH_DATA = "api/job_list.php";
     public static final String DELETE = "api/delete_file.php";
     public static final String CREW_LIST = "api/available.php";
-
+    public static final String API_FELLOW_LIST = "api/follow_up.php";
 
 
 }

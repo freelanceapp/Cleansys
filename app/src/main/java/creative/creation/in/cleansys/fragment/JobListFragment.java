@@ -168,6 +168,9 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                 searchList();
                 break;
             case R.id.refreshButton:
+                ((EditText) rootView.findViewById(R.id.search_name)).setText("");
+                ((EditText) rootView.findViewById(R.id.searchFromDate)).setText("");
+                ((EditText) rootView.findViewById(R.id.searchToDate)).setText("");
                 JoblistList();
                 break;
         }
@@ -200,9 +203,8 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                         list.clear();
                         Alerts.show(mContext, loginModal.getMessage());
                         if (loginModal.getJobList() == null) {
-                            Alerts.show(mContext, "List not Avilable");
+                            Alerts.show(mContext, "List not Available");
                         } else {
-
                             for (int i = 0; i < loginModal.getJobList().size(); i++) {
                                 String getAssets = loginModal.getJobList().get(i).getAssets();
                                 String getAttachments = loginModal.getJobList().get(i).getAttachments();
@@ -223,15 +225,10 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                                 jobList.setJobId(getJobId);
                                 jobList.setPaymentStatus(getPaymentStatus);
                                 jobList.setCrewMember(loginModal.getJobList().get(i).getCrewMember());
-
                                 list.add(jobList);
                             }
                         }
                         adapter.notifyDataSetChanged();
-
-                           /* ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list2);
-                            select_cust_0sp.setAdapter(adapter);*/
-                        //clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -246,7 +243,6 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
         } else {
             cd.show(mContext);
         }
-        // }
     }
 
     private void JoblistList() {
@@ -258,8 +254,6 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                     list.clear();
                     assert loginModal != null;
                     if (!loginModal.getError()) {
-                        Alerts.show(mContext, loginModal.getMessage());
-
                         for (int i = 0; i < loginModal.getJobList().size(); i++) {
                             String getAssets = loginModal.getJobList().get(i).getAssets();
                             String getAttachments = loginModal.getJobList().get(i).getAttachments();
@@ -280,14 +274,9 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                             jobList.setJobId(getJobId);
                             jobList.setPaymentStatus(getPaymentStatus);
                             jobList.setCrewMember(loginModal.getJobList().get(i).getCrewMember());
-
                             list.add(jobList);
                         }
                         adapter.notifyDataSetChanged();
-
-                           /* ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, list2);
-                            select_cust_0sp.setAdapter(adapter);*/
-                        //clear();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }

@@ -3,7 +3,7 @@ package creative.creation.in.cleansys.modal.api_modal.FellowUp_responce;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -18,21 +18,21 @@ public class FellowupUser implements Parcelable
     private String jobRefNum;
     @SerializedName("customer_full_name")
     @Expose
-    private Object customerFullName;
+    private String customerFullName;
     @SerializedName("customer_email")
     @Expose
-    private Object customerEmail;
+    private String customerEmail;
     @SerializedName("job_details")
     @Expose
     private String jobDetails;
     @SerializedName("customer_phone")
     @Expose
-    private Object customerPhone;
-    public final static Creator<FellowupUser> CREATOR = new Creator<FellowupUser>() {
+    private String customerPhone;
+    public final static Parcelable.Creator<FellowupUser> CREATOR = new Creator<FellowupUser>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public FellowupUser createFromParcel(Parcel in) {
             return new FellowupUser(in);
@@ -43,24 +43,15 @@ public class FellowupUser implements Parcelable
         }
 
     }
-    ;
+            ;
 
     protected FellowupUser(Parcel in) {
         this.customerRefUmber = ((String) in.readValue((String.class.getClassLoader())));
         this.jobRefNum = ((String) in.readValue((String.class.getClassLoader())));
-        this.customerFullName = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.customerEmail = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.customerFullName = ((String) in.readValue((String.class.getClassLoader())));
+        this.customerEmail = ((String) in.readValue((String.class.getClassLoader())));
         this.jobDetails = ((String) in.readValue((String.class.getClassLoader())));
-        this.customerPhone = ((Object) in.readValue((Object.class.getClassLoader())));
-    }
-
-    public FellowupUser(String customerRefUmber, String jobRefNum, Object customerFullName, Object customerEmail, String jobDetails, Object customerPhone) {
-        this.customerRefUmber = customerRefUmber;
-        this.jobRefNum = jobRefNum;
-        this.customerFullName = customerFullName;
-        this.customerEmail = customerEmail;
-        this.jobDetails = jobDetails;
-        this.customerPhone = customerPhone;
+        this.customerPhone = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public FellowupUser() {
@@ -74,11 +65,6 @@ public class FellowupUser implements Parcelable
         this.customerRefUmber = customerRefUmber;
     }
 
-    public FellowupUser withCustomerRefUmber(String customerRefUmber) {
-        this.customerRefUmber = customerRefUmber;
-        return this;
-    }
-
     public String getJobRefNum() {
         return jobRefNum;
     }
@@ -87,35 +73,20 @@ public class FellowupUser implements Parcelable
         this.jobRefNum = jobRefNum;
     }
 
-    public FellowupUser withJobRefNum(String jobRefNum) {
-        this.jobRefNum = jobRefNum;
-        return this;
-    }
-
-    public Object getCustomerFullName() {
+    public String getCustomerFullName() {
         return customerFullName;
     }
 
-    public void setCustomerFullName(Object customerFullName) {
+    public void setCustomerFullName(String customerFullName) {
         this.customerFullName = customerFullName;
     }
 
-    public FellowupUser withCustomerFullName(Object customerFullName) {
-        this.customerFullName = customerFullName;
-        return this;
-    }
-
-    public Object getCustomerEmail() {
+    public String getCustomerEmail() {
         return customerEmail;
     }
 
-    public void setCustomerEmail(Object customerEmail) {
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
-    }
-
-    public FellowupUser withCustomerEmail(Object customerEmail) {
-        this.customerEmail = customerEmail;
-        return this;
     }
 
     public String getJobDetails() {
@@ -126,22 +97,12 @@ public class FellowupUser implements Parcelable
         this.jobDetails = jobDetails;
     }
 
-    public FellowupUser withJobDetails(String jobDetails) {
-        this.jobDetails = jobDetails;
-        return this;
-    }
-
-    public Object getCustomerPhone() {
+    public String getCustomerPhone() {
         return customerPhone;
     }
 
-    public void setCustomerPhone(Object customerPhone) {
+    public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
-    }
-
-    public FellowupUser withCustomerPhone(Object customerPhone) {
-        this.customerPhone = customerPhone;
-        return this;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
@@ -154,7 +115,7 @@ public class FellowupUser implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

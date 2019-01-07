@@ -151,7 +151,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     private void init() {
-        ((ImageView) rootView.findViewById(R.id.imgInfo)).setOnClickListener(this);
+        ((TextView) rootView.findViewById(R.id.tvInfo)).setOnClickListener(this);
         ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setOnClickListener(this);
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
         user_id = AppPreference.getStringPreference(mContext, "USER_ID");
@@ -257,7 +257,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 location = customerUserList.get(position).getNamePostcode();
                 strCustomerId = customerUserList.get(position).getId();
-                ((ImageView) rootView.findViewById(R.id.imgInfo)).setVisibility(View.VISIBLE);
+                ((TextView) rootView.findViewById(R.id.tvInfo)).setVisibility(View.VISIBLE);
                 ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setText(location);
                 customerInfoApi();
                 dialogCustomer.dismiss();
@@ -668,7 +668,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     reviewDialog();
                 }
                 break;
-            case R.id.imgInfo:
+            case R.id.tvInfo:
                 customerInfoDialog();
                 break;
             case R.id.imgViewAdd:

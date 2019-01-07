@@ -183,8 +183,8 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
-        ((ImageView) findViewById(R.id.imgInfo)).setVisibility(View.VISIBLE);
-        ((ImageView) findViewById(R.id.imgInfo)).setOnClickListener(this);
+        ((TextView) findViewById(R.id.tvInfo)).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.tvInfo)).setOnClickListener(this);
         customerDetail();
     }
 
@@ -678,7 +678,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     reviewDialog();
                 }
                 break;
-            case R.id.imgInfo:
+            case R.id.tvInfo:
                 customerInfoDialog();
                 break;
             case R.id.imgViewAdd:

@@ -80,9 +80,7 @@ public class CustomerListAdapter extends ArrayAdapter<CustomerUser> {
             if (constraint != null && constraint.toString().length() > 0) {
                 ArrayList<CustomerUser> filteredItems = new ArrayList<CustomerUser>();
 
-                for (int i = 0, l = originalList.size(); i < l; i++)
-                // for(int i = 0; i< originalList.size(); i++)
-                {
+                for (int i = 0, l = originalList.size(); i < l; i++) {
                     CustomerUser Datum = originalList.get(i);
                     if (Datum.getNamePostcode().toLowerCase().contains(constraint))
                         filteredItems.add(Datum);

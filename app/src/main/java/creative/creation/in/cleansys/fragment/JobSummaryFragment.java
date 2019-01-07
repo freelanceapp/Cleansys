@@ -126,7 +126,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     private Dialog dialogCustomer;
     private CustomerListAdapter customerListAdapter;
     private List<CustomerUser> customerUserList = new ArrayList<>();
-    private CutomerModel1 loginModal;
+    private CutomerModel1 loginModal = new CutomerModel1();
     private String strFollowDate = "";
 
     @Override

@@ -138,6 +138,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         cd = new creative.creation.in.cleansys.utils.ConnectionDetector(mContext);
         retrofitRxClient = RetrofitService.getRxClient();
         retrofitApiClient = RetrofitService.getRetrofit();
+
         jobId = getIntent().getStringExtra("job_id");
         strType = getIntent().getStringExtra("from");
         ctx = this;

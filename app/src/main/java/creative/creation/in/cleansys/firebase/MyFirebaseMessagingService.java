@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import creative.creation.in.cleansys.R;
-import creative.creation.in.cleansys.activity.SplashActivity;
 import creative.creation.in.cleansys.activity.UpdateActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -34,12 +33,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage == null)
             return;
 
-    /*    if (remoteMessage.getNotification() != null) {
+        if (remoteMessage.getNotification() != null) {
             Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
             handleNotification(remoteMessage.getNotification().getBody());
-        }*/
 
-        if (remoteMessage.getData().size() > 0) {
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 sendNotification(json);
@@ -47,6 +44,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+
+       /* if (remoteMessage.getData().size() > 0) {
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                sendNotification(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+            }
+        }*/
     }
 
     private void handleNotification(String message) {

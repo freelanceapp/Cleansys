@@ -46,6 +46,7 @@ import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.Custo
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import creative.creation.in.cleansys.modal.crew_modal.CrewUserList;
+import creative.creation.in.cleansys.modal.customer_info.CustomerInfoMainModal;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
 import creative.creation.in.cleansys.util.ConnectionDetector;
@@ -123,12 +124,14 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
     private CrewSpinnerAdapter crewSpinnerAdapter;
     private String strCrewName = "";
     private String strCrewId = "";
-    private Dialog dialogCustomer;
+    private Dialog dialogCustomer, dialogCustomerInfo;
     private CustomerListAdapter customerListAdapter;
     private List<CustomerUser> customerUserList = new ArrayList<>();
     private CutomerModel1 loginModal;
     private String strType = "";
-    private String strFollowDate = "";
+    private String customerNamePostCode = "";
+    private String strFollowDate = "", strCustomerId = "", strCustomerName = "", strCustomerLocation = "",
+            strCustomerCity = "", strCustomerStreet = "", strCustomerEmail = "", strCustomerPhone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +145,6 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         jobId = getIntent().getStringExtra("job_id");
         strType = getIntent().getStringExtra("from");
         ctx = this;
-        customerList();
-        //initXml();
         init0();
         ImageView iv_update_back = (ImageView) findViewById(R.id.iv_update_back);
         iv_update_back.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +182,9 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
+
+        ((ImageView) findViewById(R.id.imgInfo)).setVisibility(View.VISIBLE);
+        ((ImageView) findViewById(R.id.imgInfo)).setOnClickListener(this);
         customerDetail();
     }
 
@@ -206,6 +210,8 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 location = customerUserList.get(position).getNamePostcode();
+                strCustomerId = customerUserList.get(position).getId();
+                customerInfoApi();
                 ((TextView) findViewById(R.id.tvSelectCustomer)).setText(location);
                 dialogCustomer.dismiss();
             }
@@ -232,6 +238,56 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
         Window window = dialogCustomer.getWindow();
         window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         dialogCustomer.show();
+    }
+
+    private void customerInfoApi() {
+        RetrofitService.getCustomerInfo(new Dialog(mContext), retrofitApiClient.getCustomerInfo(strCustomerId), new WebResponse() {
+            @Override
+            public void onResponseSuccess(Response<?> result) {
+                CustomerInfoMainModal customerInfoMainModal = (CustomerInfoMainModal) result.body();
+                if (customerInfoMainModal == null)
+                    return;
+                strCustomerEmail = customerInfoMainModal.getJobList().getEmail();
+                strCustomerPhone = customerInfoMainModal.getJobList().getPhone();
+                strCustomerName = customerInfoMainModal.getJobList().getName();
+                strCustomerLocation = customerInfoMainModal.getJobList().getLocation();
+                strCustomerCity = customerInfoMainModal.getJobList().getCity();
+                strCustomerStreet = customerInfoMainModal.getJobList().getStreet();
+            }
+
+            @Override
+            public void onResponseFailed(String error) {
+                Alerts.show(mContext, error);
+            }
+        });
+    }
+
+    private void customerInfoDialog() {
+        dialogCustomerInfo = new Dialog(mContext);
+        dialogCustomerInfo.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogCustomerInfo.setContentView(R.layout.dialog_customer_info);
+
+        dialogCustomerInfo.setCanceledOnTouchOutside(true);
+        dialogCustomerInfo.setCancelable(true);
+        if (dialogCustomerInfo.getWindow() != null)
+            dialogCustomerInfo.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvEmail)).setText(strCustomerEmail);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvPhone)).setText(strCustomerPhone);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvName)).setText(strCustomerName);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvLocation)).setText(strCustomerLocation);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvCity)).setText(strCustomerCity);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvStreet)).setText(strCustomerStreet);
+        ((Button) dialogCustomerInfo.findViewById(R.id.btnClose)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCustomerInfo.dismiss();
+            }
+        });
+
+        Window window = dialogCustomerInfo.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialogCustomerInfo.show();
     }
 
     private void getCrew(String strDateTime) {
@@ -622,6 +678,9 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     reviewDialog();
                 }
                 break;
+            case R.id.imgInfo:
+                customerInfoDialog();
+                break;
             case R.id.imgViewAdd:
                 addValue();
                 break;
@@ -793,6 +852,12 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                     assert loginModal != null;
                     if (!loginModal.getError()) {
                         customerUserList.addAll(loginModal.getUser());
+                        for (int i = 0; i < customerUserList.size(); i++) {
+                            if (customerNamePostCode.equals(customerUserList.get(i).getNamePostcode())) {
+                                strCustomerId = customerUserList.get(i).getId();
+                                customerInfoApi();
+                            }
+                        }
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                     }
@@ -822,6 +887,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                         et_0_jobdescr.setText(loginModal.getJobdata().getJobData().getJsDesc());
                         pdUrgentHandoverNotes.setText(loginModal.getJobdata().getTaskPropertyDetails().getUrgentHandoverNotes());
                         location = loginModal.getJobdata().getJobData().getCustLocat();
+                        customerNamePostCode = loginModal.getJobdata().getJobData().getCustLocat();
                         ((TextView) findViewById(R.id.tvSelectCustomer)).setText(loginModal.getJobdata().getJobData().getCustLocat());
 
                         etOtherSourceAdv.setText(loginModal.getJobdata().getTaskPropertyDetails().getOtherAdvert());
@@ -876,6 +942,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                             }
                         }
                         attechAdapter.notifyDataSetChanged();
+                        customerList();
                     } else {
                         Alerts.show(mContext, loginModal.getMessage());
                         Log.e("", loginModal.getMessage());

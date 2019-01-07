@@ -10,4 +10,8 @@
     <color name="button">#E0A800</color>
     <color name="light_grey">#EEEEEE</color>
     <color name="green">#2d9927</color>
+
+    <color name="text_color_a">#161616</color>
+    <color name="text_color_b">#282828</color>
+    <color name="text_color_c">#393939</color>
 </resources>

@@ -117,7 +117,6 @@ public class SchedularFragment extends BaseFragment implements FragmentChangeLis
                         Alerts.show(mContext, loginModal.getMessage());
                     }
                 }
-
                 @Override
                 public void onResponseFailed(String error) {
                     Alerts.show(mContext, error);

@@ -12,6 +12,7 @@ import creative.creation.in.cleansys.modal.api_modal.login_response.LoginModal;
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
+import creative.creation.in.cleansys.modal.customer_info.CustomerInfoMainModal;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -227,6 +228,10 @@ public interface RetrofitApiClient {
     @FormUrlEncoded
     @POST(Constant.GET_DETAIL)
     Call<CustomerDetailModel1> getCustomerDetail(@Field("job_id") String job_id);
+
+    @FormUrlEncoded
+    @POST(Constant.CUSTOMER_INFO)
+    Call<CustomerInfoMainModal> getCustomerInfo(@Field("id") String job_id);
 
     @FormUrlEncoded
     @POST(Constant.SEARCH_DATA)

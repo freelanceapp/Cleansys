@@ -49,6 +49,7 @@ import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.Custo
 import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.CutomerModel1;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
 import creative.creation.in.cleansys.modal.crew_modal.CrewUserList;
+import creative.creation.in.cleansys.modal.customer_info.CustomerInfoMainModal;
 import creative.creation.in.cleansys.retrofit_provider.RetrofitService;
 import creative.creation.in.cleansys.retrofit_provider.WebResponse;
 import creative.creation.in.cleansys.utils.Alerts;
@@ -123,11 +124,12 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     private CrewSpinnerAdapter crewSpinnerAdapter;
     private String strCrewName = "";
     private String strCrewId = "";
-    private Dialog dialogCustomer;
+    private Dialog dialogCustomer, dialogCustomerInfo;
     private CustomerListAdapter customerListAdapter;
     private List<CustomerUser> customerUserList = new ArrayList<>();
-    private CutomerModel1 loginModal;
-    private String strFollowDate = "";
+    private CutomerModel1 loginModal = new CutomerModel1();
+    private String strFollowDate = "", strCustomerId = "", strCustomerName = "", strCustomerLocation = "",
+            strCustomerCity = "", strCustomerStreet = "", strCustomerEmail = "", strCustomerPhone = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -149,6 +151,7 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     private void init() {
+        ((ImageView) rootView.findViewById(R.id.imgInfo)).setOnClickListener(this);
         ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setOnClickListener(this);
         refreshedToken = FirebaseInstanceId.getInstance().getToken();
         user_id = AppPreference.getStringPreference(mContext, "USER_ID");
@@ -181,6 +184,56 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         });
     }
 
+    private void customerInfoApi() {
+        RetrofitService.getCustomerInfo(new Dialog(mContext), retrofitApiClient.getCustomerInfo(strCustomerId), new WebResponse() {
+            @Override
+            public void onResponseSuccess(Response<?> result) {
+                CustomerInfoMainModal customerInfoMainModal = (CustomerInfoMainModal) result.body();
+                if (customerInfoMainModal == null)
+                    return;
+                strCustomerEmail = customerInfoMainModal.getJobList().getEmail();
+                strCustomerPhone = customerInfoMainModal.getJobList().getPhone();
+                strCustomerName = customerInfoMainModal.getJobList().getName();
+                strCustomerLocation = customerInfoMainModal.getJobList().getLocation();
+                strCustomerCity = customerInfoMainModal.getJobList().getCity();
+                strCustomerStreet = customerInfoMainModal.getJobList().getStreet();
+            }
+
+            @Override
+            public void onResponseFailed(String error) {
+                Alerts.show(mContext, error);
+            }
+        });
+    }
+
+    private void customerInfoDialog() {
+        dialogCustomerInfo = new Dialog(mContext);
+        dialogCustomerInfo.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogCustomerInfo.setContentView(R.layout.dialog_customer_info);
+
+        dialogCustomerInfo.setCanceledOnTouchOutside(true);
+        dialogCustomerInfo.setCancelable(true);
+        if (dialogCustomerInfo.getWindow() != null)
+            dialogCustomerInfo.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvEmail)).setText(strCustomerEmail);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvPhone)).setText(strCustomerPhone);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvName)).setText(strCustomerName);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvLocation)).setText(strCustomerLocation);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvCity)).setText(strCustomerCity);
+        ((TextView) dialogCustomerInfo.findViewById(R.id.tvStreet)).setText(strCustomerStreet);
+        ((Button) dialogCustomerInfo.findViewById(R.id.btnClose)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCustomerInfo.dismiss();
+            }
+        });
+
+        Window window = dialogCustomerInfo.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        dialogCustomerInfo.show();
+    }
+
     private void reviewDialog() {
         dialogCustomer = new Dialog(mContext);
         dialogCustomer.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -203,7 +256,10 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 location = customerUserList.get(position).getNamePostcode();
+                strCustomerId = customerUserList.get(position).getId();
+                ((ImageView) rootView.findViewById(R.id.imgInfo)).setVisibility(View.VISIBLE);
                 ((TextView) rootView.findViewById(R.id.tvSelectCustomer)).setText(location);
+                customerInfoApi();
                 dialogCustomer.dismiss();
             }
         });
@@ -612,6 +668,9 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                     reviewDialog();
                 }
                 break;
+            case R.id.imgInfo:
+                customerInfoDialog();
+                break;
             case R.id.imgViewAdd:
                 addValue();
                 break;
@@ -825,27 +884,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
     }
 
     public void addValue() {
-        //strCrewName = spCrewList.getSelectedItem().toString();
-        /*if (ItemModelList.size() >= 1) {
-            Model md = new Model(strCrewName);
-            for (int j = 0; j < ItemModelList.size(); j++) {
-                if (strCrewName.equals(ItemModelList.get(j).getName())) {
-                    Alerts.show(mContext, "Already added!!!");
-                } else {
-                    if (!strCrewName.isEmpty()) {
-                        ItemModelList.add(md);
-                        attechAdapter.notifyDataSetChanged();
-                        break;
-                    }
-                }
-            }
-        } else if (ItemModelList.size() < 1) {
-            if (!strCrewName.isEmpty()) {
-                Model md = new Model(strCrewName);
-                ItemModelList.add(md);
-                attechAdapter.notifyDataSetChanged();
-            }
-        }*/
         if (!strCrewName.isEmpty()) {
             Model md = new Model(strCrewName, strCrewId);
             ItemModelList.add(md);

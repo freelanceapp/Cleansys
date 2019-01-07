@@ -14,6 +14,7 @@ import creative.creation.in.cleansys.modal.api_modal.customerlist_responce.Cutom
 import creative.creation.in.cleansys.modal.api_modal.price_responce.PriceModel;
 import creative.creation.in.cleansys.modal.api_modal.search_responce.SearchModel;
 import creative.creation.in.cleansys.modal.crew_modal.CrewMainModal;
+import creative.creation.in.cleansys.modal.customer_info.CustomerInfoMainModal;
 import creative.creation.in.cleansys.utils.AppProgressDialog;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -72,6 +73,27 @@ public class RetrofitService {
 
             @Override
             public void onFailure(Call<FellowUpModel> call, Throwable throwable) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                webResponse.onResponseFailed(throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getCustomerInfo(final Dialog dialog, final Call<CustomerInfoMainModal> method, final WebResponse webResponse) {
+        if (dialog != null)
+            AppProgressDialog.show(dialog);
+
+        method.enqueue(new Callback<CustomerInfoMainModal>() {
+            @Override
+            public void onResponse(Call<CustomerInfoMainModal> call, Response<CustomerInfoMainModal> response) {
+                if (dialog != null)
+                    AppProgressDialog.hide(dialog);
+                WebServiceResponse.handleResponse(response, webResponse);
+            }
+
+            @Override
+            public void onFailure(Call<CustomerInfoMainModal> call, Throwable throwable) {
                 if (dialog != null)
                     AppProgressDialog.hide(dialog);
                 webResponse.onResponseFailed(throwable.getMessage());

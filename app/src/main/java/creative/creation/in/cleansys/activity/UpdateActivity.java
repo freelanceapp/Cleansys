@@ -728,8 +728,17 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
                 datePickerDialog = new DatePickerDialog(UpdateActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tvDetailDateandTime.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        final String tvDetailDateandTime1 = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                        mTimePicker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                tvDetailDateandTime.setText(tvDetailDateandTime1 + " " + selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour1, minute1, true);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();

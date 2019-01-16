@@ -509,7 +509,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         tvPaymentDateCompletionPaymentReceived.setOnClickListener(this);
         tvPaymentDateDepositReceived.setOnClickListener(this);
         tvFollowUpDate.setOnClickListener(this);
-
         et_0_jobdescr = rootView.findViewById(R.id.et_0_jobdescr);
         pdUrgentHandoverNotes = rootView.findViewById(R.id.pdUrgentHandoverNotes);
         etOtherSourceAdv = rootView.findViewById(R.id.etOtherSourceAdv);
@@ -528,7 +527,6 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         etCallBackReasonComplaint = rootView.findViewById(R.id.etCallBackReasonComplaint);
         etParentJob = rootView.findViewById(R.id.etParentJob);
         etComments = rootView.findViewById(R.id.etComments);
-
         spCrewList = rootView.findViewById(R.id.spCrewList);
         select_cust_0sp = rootView.findViewById(R.id.sp_0_selectcustomer);
         spSourceAdv = rootView.findViewById(R.id.spSourceAdv);
@@ -572,12 +570,9 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
         spFeedbackCategory = rootView.findViewById(R.id.spFeedbackCategory);
         spDetailHourse = rootView.findViewById(R.id.spDetailsHourse);
         spDetailMinuts = rootView.findViewById(R.id.spDetailsMinuts);
-
         jobdecrip_et = rootView.findViewById(R.id.et_0_jobdescr);
-
         btn_refresh = rootView.findViewById(R.id.btn_refresh);
         btn_refresh.setOnClickListener(this);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, condition);
         spCommercialProperty.setAdapter(adapter);
         spDormerWindowsPresent.setAdapter(adapter);
@@ -714,8 +709,17 @@ public class JobSummaryFragment extends BaseFragment implements FragmentChangeLi
                 datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tvDetailDateandTime.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                       final String tvDetailDateandTime1 = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         strDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                        mTimePicker = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                                tvDetailDateandTime.setText(tvDetailDateandTime1 + " " + selectedHour + ":" + selectedMinute);
+                            }
+                        }, hour1, minute1, true);//Yes 24 hour time
+                        mTimePicker.setTitle("Select Time");
+                        mTimePicker.show();
+
                     }
                 }, mYear, mMonth, mDay);
                 datePickerDialog.show();

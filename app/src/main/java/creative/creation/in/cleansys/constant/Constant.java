@@ -7,7 +7,7 @@ package creative.creation.in.cleansys.constant;
  */
 
 public class Constant {
-    public static final String BASE_URL = "http://webintellect.co.uk/cleansys/";
+    public static final String BASE_URL = "http://kare-group.co.uk/cleansys/";
     public static final String USER_REGISTRATION = "api/user-signup.php";
     public static final String USER_PROFILE = "api/user-profile.php";
     public static final String USER_LOGIN = "api/user-login.php";

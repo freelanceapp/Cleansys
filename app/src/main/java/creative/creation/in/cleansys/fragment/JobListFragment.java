@@ -214,7 +214,6 @@ public class JobListFragment extends BaseFragment implements FragmentChangeListe
                                 String getJldData = loginModal.getJobList().get(i).getJldData();
                                 String getJobId = loginModal.getJobList().get(i).getJobId();
                                 String getPaymentStatus = loginModal.getJobList().get(i).getPaymentStatus();
-
                                 JobList jobList = new JobList();
                                 jobList.setAssets(getAssets);
                                 jobList.setAttachments(getAttachments);

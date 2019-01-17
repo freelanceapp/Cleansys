@@ -49,5 +49,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.github.tibolte:agendacalendarview:1.0.4'
 
+    implementation 'commons-io:commons-io:2.6'
 
 }

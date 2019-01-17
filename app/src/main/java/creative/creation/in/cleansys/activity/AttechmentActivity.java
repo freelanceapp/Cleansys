@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +16,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import creative.creation.in.cleansys.FilePath;
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.adapter.AttechmentAdapter;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentFile;
@@ -52,6 +57,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
+
+import static creative.creation.in.cleansys.constant.Constant.BASE_URL;
 
 public class AttechmentActivity extends BaseActivity implements View.OnClickListener {
     private File file = null;
@@ -77,7 +84,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
     String fileURL;
     String songName;
     String atId;
-
+    private String selectedFilePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,12 +187,14 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
 
     private void galleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("*/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY);
 		/*Intent galleryIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(galleryIntent, GALLERY);*/
     }
+
+
 
     private void cameraIntent() {
 		/*Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -202,8 +211,13 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         }
         if (requestCode == GALLERY) {
             if (data != null) {
-                Uri contentURI = data.getData();
-                try {
+                // Uri contentURI = data.getData();
+            }
+                Uri selectedFileUri = data.getData();
+                selectedFilePath = FilePath.getPath(this,selectedFileUri);
+                Log.i("Attechment ","Selected File Path:" + selectedFilePath);
+                file = new File(selectedFilePath);
+               /* try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
                     //  Toast.makeText(ctx, "Image Saved!", Toast.LENGTH_SHORT).show();
@@ -212,8 +226,8 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(ctx, "Failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
+                }*/
+
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -421,7 +435,7 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         fileURL = favourite.getAttachPath();
         fileURL = fileURL.replace(" ", "%20");
         songName = favourite.getJobId();
-        Download_Uri = Uri.parse("http://codeencrypt.in/cleansys/uploads/Copy%20of%20Diwali%20-%20Made%20with%20PosterMyWall.jpg");
+        Download_Uri = Uri.parse(BASE_URL+fileURL);
         if (fileURL.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No url found", Toast.LENGTH_SHORT).show();
         } else {
@@ -433,31 +447,76 @@ public class AttechmentActivity extends BaseActivity implements View.OnClickList
         DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         request.setAllowedOverRoaming(false);
-        request.setTitle("Cleansys Downloading " + songName);
+        request.setTitle("Cleansys_doc" + songName);
         request.setDescription("Downloading " + songName);
         request.setVisibleInDownloadsUi(true);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/cleansys/" + songName);
         refid = downloadManager.enqueue(request);
         Log.e("OUT", "" + refid);
+
     }
 
     BroadcastReceiver onComplete = new BroadcastReceiver() {
         public void onReceive(Context ctxt, Intent intent) {
             long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             Log.e("IN", "" + referenceId);
-            list.remove(referenceId);
+            PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0,
+                    intent, PendingIntent.FLAG_ONE_SHOT);
+           /* list.remove(referenceId);
             if (list.isEmpty()) {
                 Log.e("INSIDE", "" + referenceId);
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(ctx.getApplicationContext())
                                 .setSmallIcon(R.mipmap.ic_launcher)
-                                .setContentTitle("Clean Sys");
-
+                                .setContentTitle("Clean Sys")
+                               *//* .setContentIntent(pendingIntent)*//*;
 
                 NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(455, mBuilder.build());
-            }
+            }*/
+
+            Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+            Uri uri = Uri.parse("/Download/cleansys/"); // a directory
+            intent1.setDataAndType(uri, "*/*");
+            showNotification(intent1, "Clean Sys", "Complete");
+
         }
     };
+
+
+    private void showNotification(Intent intent, String title, String message) {
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = "Cleansys Job";// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        Notification notification;
+        NotificationChannel mChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.app_logo)
+                .setTicker(title)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri).setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(mChannel);
+        } else {
+            notificationManager.notify(0, notificationBuilder.build());
+        }
+    }
+
 
 }

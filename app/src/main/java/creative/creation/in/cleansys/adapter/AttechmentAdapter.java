@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import creative.creation.in.cleansys.R;
 import creative.creation.in.cleansys.modal.api_modal.attechment_responce.AttechmentFile;
 
+import static creative.creation.in.cleansys.constant.Constant.BASE_URL;
+
 public class AttechmentAdapter extends RecyclerView.Adapter<AttechmentAdapter.MyHolder> {
     Context ctx;
     ArrayList<AttechmentFile> attechmentFileArrayList;
@@ -50,11 +52,30 @@ public class AttechmentAdapter extends RecyclerView.Adapter<AttechmentAdapter.My
         holder.tvAttechmentName.setText(""+attechmentFileArrayList.get(position).getJobId());
         Log.e("Adapter ","..."+attechmentFileArrayList.get(position).getJobId());
         //holder.ivAttechmentImg.setText(""+fellowupUserArrayList.get(position).getJobRefNum());
-        Picasso.get().load("http://webintellect.co.uk/cleansys/"+attechmentFileArrayList.get(position).getAttachPath()).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
-        holder.ivAttechmentDown.setOnClickListener(onClickListener);
-        holder.ivAttechmentDown.setTag(position);
-        holder.ivAttechmentDelete.setOnClickListener(onClickListener);
-        holder.ivAttechmentDelete.setTag(position);
+
+        if (attechmentFileArrayList.get(position).getAttachPath().contains("pdf"))
+        {
+            Picasso.get().load(R.drawable.icon_pdf).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }else if (attechmentFileArrayList.get(position).getAttachPath().contains("pptx"))
+        {
+            Picasso.get().load(R.drawable.icon_doc).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }else if (attechmentFileArrayList.get(position).getAttachPath().contains("doc"))
+        {
+            Picasso.get().load(R.drawable.icon_doc).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }else if (attechmentFileArrayList.get(position).getAttachPath().contains("txt"))
+        {
+            Picasso.get().load(R.drawable.icon_doc).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }else if (attechmentFileArrayList.get(position).getAttachPath().contains("docx"))
+        {
+            Picasso.get().load(R.drawable.icon_doc).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }
+        else {
+            Picasso.get().load(BASE_URL + attechmentFileArrayList.get(position).getAttachPath()).placeholder(R.drawable.image).into(holder.ivAttechmentImg);
+        }
+            holder.ivAttechmentDown.setOnClickListener(onClickListener);
+            holder.ivAttechmentDown.setTag(position);
+            holder.ivAttechmentDelete.setOnClickListener(onClickListener);
+            holder.ivAttechmentDelete.setTag(position);
     }
     @Override
     public int getItemCount() {
